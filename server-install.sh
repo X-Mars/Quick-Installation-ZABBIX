@@ -86,6 +86,8 @@ END
 
 echo "导入zabbix数据库"
 sleep 3
+
+cd $zabbixdir/zabbix-${zabbix_version}
 mysql -uzabbix -pzabbix -hlocalhost zabbix < database/mysql/schema.sql
 mysql -uzabbix -pzabbix -hlocalhost zabbix < database/mysql/images.sql
 mysql -uzabbix -pzabbix -hlocalhost zabbix < database/mysql/data.sql
