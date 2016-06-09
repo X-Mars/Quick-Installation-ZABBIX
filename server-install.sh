@@ -6,7 +6,7 @@ zabbix_version=3.0.3
 zabbixdir=`pwd`
 ip=$(ifconfig | grep "inet addr" | grep -v 127.0.0.1 | awk '{print $2}' | awk -F ':' '{print $2}')
 
-cat $zabbixdir/Readme
+cat $zabbixdir/README.md
 
 
 
