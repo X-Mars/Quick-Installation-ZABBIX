@@ -6,6 +6,7 @@ zabbix安装脚本v_3.1
 要求纯净centos6系统
 关闭防火墙
 关闭selinux
+
 =========运行"server-install.sh"安装zabbix服务器端
 由于zabbix3需要php5.6以上，因此脚本会删除原有php环境从新安装
 mysql默认root密码123321
