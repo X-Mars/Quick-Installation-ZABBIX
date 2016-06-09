@@ -19,13 +19,13 @@ sleep 3
 yum remove php.x86_64 php-cli.x86_64 php-common.x86_64 php-gd.x86_64 php-ldap.x86_64 php-mbstring.x86_64 php-mcrypt.x86_64 php-mysql.x86_64 php-pdo.x86_64 -y
 rpm -Uvh http://mirror.webtatic.com/yum/el6/latest.rpm
 
-yum install patch wget unzip libxml2 libxml2-devel httpd mysql mysql-server  curl curl-devel net-snmp net-snmp-devel perl-DBI ntpdate zlib-devel mysql-devel glibc-devel gcc-c++ gcc automake mysql libidn-devel openssl-devel net-snmp-devel rpm-devel OpenIPMI-devel php56w.x86_64 php56w-cli.x86_64 php56w-common.x86_64 php56w-gd.x86_64 php56w-ldap.x86_64 php56w-mbstring.x86_64 php56w-mcrypt.x86_64 php56w-mysql.x86_64 php56w-pdo.x86_64 php56w-bcmath php56w-xml -y
+yum install patch java-devel wget unzip libxml2 libxml2-devel httpd mysql mysql-server  curl curl-devel net-snmp net-snmp-devel perl-DBI ntpdate zlib-devel mysql-devel glibc-devel gcc-c++ gcc automake mysql libidn-devel openssl-devel net-snmp-devel rpm-devel OpenIPMI-devel php56w.x86_64 php56w-cli.x86_64 php56w-common.x86_64 php56w-gd.x86_64 php56w-ldap.x86_64 php56w-mbstring.x86_64 php56w-mcrypt.x86_64 php56w-mysql.x86_64 php56w-pdo.x86_64 php56w-bcmath php56w-xml -y
 
 echo "同步服务器时间"
 ntpdate asia.pool.ntp.org
 echo "创建zabbix用户"
 groupadd zabbix
-useradd -s /sbin/nologin zabbix
+useradd -g zabbix zabbix
 service mysqld start
 sleep 5
 
@@ -64,23 +64,23 @@ rm -f /var/www/html/zabbix/conf/zabbix.conf.php
 cat > /var/www/html/zabbix/conf/zabbix.conf.php <<END
 <?php
 // Zabbix GUI configuration file.
-global $DB;
+global \$DB;
 
-$DB['TYPE']     = 'MYSQL';
-$DB['SERVER']   = 'localhost';
-$DB['PORT']     = '0';
-$DB['DATABASE'] = 'zabbix';
-$DB['USER']     = 'zabbix';
-$DB['PASSWORD'] = 'zabbix';
+\$DB['TYPE']     = 'MYSQL';
+\$DB['SERVER']   = 'localhost';
+\$DB['PORT']     = '0';
+\$DB['DATABASE'] = 'zabbix';
+\$DB['USER']     = 'zabbix';
+\$DB['PASSWORD'] = 'zabbix';
 
 // Schema name. Used for IBM DB2 and PostgreSQL.
-$DB['SCHEMA'] = '';
+\$DB['SCHEMA'] = '';
 
-$ZBX_SERVER      = 'localhost';
-$ZBX_SERVER_PORT = '10051';
-$ZBX_SERVER_NAME = '';
+\$ZBX_SERVER      = 'localhost';
+\$ZBX_SERVER_PORT = '10051';
+\$ZBX_SERVER_NAME = '';
 
-$IMAGE_FORMAT_DEFAULT = IMAGE_FORMAT_PNG;
+\$IMAGE_FORMAT_DEFAULT = IMAGE_FORMAT_PNG;
 ?>
 END
 
