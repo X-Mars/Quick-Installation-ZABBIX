@@ -55,9 +55,13 @@ make
 make install
 mkdir /var/www/html/zabbix
 cp -r $zabbixdir/zabbix-${zabbix_version}/frontends/php/* /var/www/html/zabbix
+cp $zabbixdir/simkai.ttf /var/www/html/zabbix/fonts
+sed -i "s/DejaVuSans/simkai/g" /var/www/html/zabbix/include/defines.inc.php
+
 cd /var/www/html/zabbix
 wget https://raw.githubusercontent.com/OneOaaS/graphtrees/master/graphtree3-0-1.patch
 patch  -Np0 <graphtree3-0-1.patch
+
 
 echo "创建zabbix数据库配置档"
 rm -f /var/www/html/zabbix/conf/zabbix.conf.php
