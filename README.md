@@ -3,7 +3,7 @@
 zabbix安装脚本v_3.1
 脚本作者:火星小刘 web:www.huoxingxiaoliu.com email:xtlyk@126.com
 
-要求纯净centos6系统
+要求纯净centos6/7系统
 关闭防火墙
 关闭selinux
 
@@ -17,6 +17,10 @@ zabbix数据库密码zabbix
 =========在被监控终端运行"agent-install.sh"安装
 
 =========更新日志
+2016-06-10更新
+1、增加centos7支持
+2、添加zabbix_java启动
+
 2016-06-09更新
 1、升级zabbix到3.0.3
 2、添加吴兆松的graphtrees插件
