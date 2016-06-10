@@ -58,7 +58,14 @@ cd $zabbixdir/zabbix-${zabbix_version}
 echo `pwd`
 ./configure --prefix=/usr/local/zabbix/ --enable-server --enable-agent --with-mysql --with-net-snmp --with-libcurl --with-libxml2 --enable-java
 sleep 3
-make
+
+CPU_NUM=$(cat /proc/cpuinfo | grep processor | wc -l)
+if [ $CPU_NUM -gt 1 ];then
+    make -j$CPU_NUM
+else
+    make
+fi
+
 make install
 mkdir /var/www/html/zabbix
 cp -r $zabbixdir/zabbix-${zabbix_version}/frontends/php/* /var/www/html/zabbix
@@ -119,16 +126,15 @@ sed -i '/max_input_time =/s/60/300/' /etc/php.ini
 sed -i '/mbstring.func_overload = 0/a\mbstring.func_overload = 1' /etc/php.ini
 sed -i '/post_max_size =/s/8M/32M/' /etc/php.ini
 sed -i '/;always_populate_raw_post_data = -1/a\always_populate_raw_post_data = -1' /etc/php.ini
+sed -i '/;date.timezone =/a\date.timezone = PRC' /etc/php.ini
 
 echo "设置apache"
 sleep 3
 sed -i '/#ServerName www.example.com:80/a\ServerName zabbix' /etc/httpd/conf/httpd.conf 
 if [ $release = 7 ];then
-	sed -i '/;date.timezone =/a\date.timezone = PRC' /etc/php.ini
 	systemctl start httpd.service
 elif [ $release = 6 ];then
 	service httpd start
-	sed -i '/;date.timezone =/a\date.timezone = Asia/Shanghai' /etc/php.ini
 fi
 
 
