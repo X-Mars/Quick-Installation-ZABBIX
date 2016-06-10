@@ -4,7 +4,8 @@ echo "脚本作者:火星小刘 web:www.huoxingxiaoliu.com email:xtlyk@163.com"
 sleep 10
 zabbix_version=3.0.3
 zabbixdir=`pwd`
-ip=$(ifconfig | grep "inet addr" | grep -v 127.0.0.1 | awk '{print $2}' | awk -F ':' '{print $2}')
+ip=`ip addr |grep inet |egrep -v "inet6|127.0.0.1" |awk '{print $2}' |awk -F "/" '{print $1}'`
+release=`cat /etc/redhat-release | awk -F "release" '{print $2}' |awk -F "." '{print $1}' |sed 's/ //g'`
 
 cat $zabbixdir/README.md
 
@@ -16,17 +17,23 @@ echo "本机ip为:$ip"
 echo "安装mysql、apache、php等相关组件"
 sleep 3
 
-yum remove php.x86_64 php-cli.x86_64 php-common.x86_64 php-gd.x86_64 php-ldap.x86_64 php-mbstring.x86_64 php-mcrypt.x86_64 php-mysql.x86_64 php-pdo.x86_64 -y
-rpm -Uvh http://mirror.webtatic.com/yum/el6/latest.rpm
-
-yum install patch java-devel wget unzip libxml2 libxml2-devel httpd mysql mysql-server  curl curl-devel net-snmp net-snmp-devel perl-DBI ntpdate zlib-devel mysql-devel glibc-devel gcc-c++ gcc automake mysql libidn-devel openssl-devel net-snmp-devel rpm-devel OpenIPMI-devel php56w.x86_64 php56w-cli.x86_64 php56w-common.x86_64 php56w-gd.x86_64 php56w-ldap.x86_64 php56w-mbstring.x86_64 php56w-mcrypt.x86_64 php56w-mysql.x86_64 php56w-pdo.x86_64 php56w-bcmath php56w-xml -y
+if [ $release = 7 ];then
+	rpm -Uvh http://mirrors.isu.net.sa/pub/fedora/fedora-epel/7/x86_64/e/epel-release-7-6.noarch.rpm
+	yum -y install php-xml php-xmlrpc php-mbstring php-mhash patch java-devel wget unzip libxml2 libxml2-devel httpd mariadb mariadb-devel mariadb-server php php-mysql php-common php-mbstring php-gd php-odbc php-pear curl curl-devel net-snmp net-snmp-devel perl-DBI php-xml ntpdate  php-bcmath zlib-devel glibc-devel curl-devel gcc automake libidn-devel openssl-devel net-snmp-devel rpm-devel OpenIPMI-devel
+	systemctl start mariadb.service
+elif [ $release = 6 ];then
+	yum remove php.x86_64 php-cli.x86_64 php-common.x86_64 php-gd.x86_64 php-ldap.x86_64 php-mbstring.x86_64 php-mcrypt.x86_64 php-mysql.x86_64 php-pdo.x86_64 -y
+	rpm -Uvh http://mirrors.isu.net.sa/pub/fedora/fedora-epel/6/i386/epel-release-6-8.noarch.rpm
+	rpm -Uvh http://mirror.webtatic.com/yum/el6/latest.rpm
+	yum install patch java-devel wget unzip libxml2 libxml2-devel httpd mysql mysql-server  curl curl-devel net-snmp net-snmp-devel perl-DBI ntpdate zlib-devel mysql-devel glibc-devel gcc-c++ gcc automake mysql libidn-devel openssl-devel net-snmp-devel rpm-devel OpenIPMI-devel php56w.x86_64 php56w-cli.x86_64 php56w-common.x86_64 php56w-gd.x86_64 php56w-ldap.x86_64 php56w-mbstring.x86_64 php56w-mcrypt.x86_64 php56w-mysql.x86_64 php56w-pdo.x86_64 php56w-bcmath php56w-xml -y
+	service mysqld start
+fi
 
 echo "同步服务器时间"
 ntpdate asia.pool.ntp.org
 echo "创建zabbix用户"
 groupadd zabbix
 useradd -g zabbix zabbix
-service mysqld start
 sleep 5
 
 
@@ -108,7 +115,6 @@ echo "设置php.ini相关参数"
 sleep 3
 cp /etc/php.ini /etc/php.ini.zabbixbak
 sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php.ini
-sed -i '/;date.timezone =/a\date.timezone = Asia/Shanghai' /etc/php.ini
 sed -i '/max_input_time =/s/60/300/' /etc/php.ini
 sed -i '/mbstring.func_overload = 0/a\mbstring.func_overload = 1' /etc/php.ini
 sed -i '/post_max_size =/s/8M/32M/' /etc/php.ini
@@ -117,11 +123,20 @@ sed -i '/;always_populate_raw_post_data = -1/a\always_populate_raw_post_data = -
 echo "设置apache"
 sleep 3
 sed -i '/#ServerName www.example.com:80/a\ServerName zabbix' /etc/httpd/conf/httpd.conf 
-service httpd restart
+if [ $release = 7 ];then
+	sed -i '/;date.timezone =/a\date.timezone = PRC' /etc/php.ini
+	systemctl start httpd.service
+elif [ $release = 6 ];then
+	service httpd start
+	sed -i '/;date.timezone =/a\date.timezone = Asia/Shanghai' /etc/php.ini
+fi
+
+
 echo "启动zabbix"
-sleep 3
 /etc/init.d/zabbix_server restart
 /etc/init.d/zabbix_agentd restart
-echo "数据库默认root密码zabbix54321;zabbix-Database name:zabbix/User:zabbix/Password:zabbix"
+/usr/local/zabbix/sbin/zabbix_java/startup.sh
+
+echo "数据库默认root密码zabbix123321;zabbix-Database name:zabbix/User:zabbix/Password:zabbix"
 cp $zabbixdir/zabbix-${zabbix_version}.tar.gz /var/www/html/zabbix
 echo "打开http://$ip/zabbix，进行下一步安装"
