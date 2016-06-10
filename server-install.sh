@@ -43,7 +43,7 @@ echo "flush privileges;" | mysql -uroot -p123321
 echo "安装zabbix-${zabbix_version}"
 sleep 3
 if [ ! -f zabbix-${zabbix_version}.tar.gz ];then
-	wget http://netix.dl.sourceforge.net/project/zabbix/ZABBIX%20Latest%20Stable/$zabbix_version/zabbix-${zabbix_version}.tar.gz
+	wget http://netix.dl.sourceforge.net/project/zabbix/ZABBIX%20Latest%20Stable/${zabbix_version}/zabbix-${zabbix_version}.tar.gz
 fi
 
 tar zxvf $zabbixdir/zabbix-${zabbix_version}.tar.gz
@@ -112,7 +112,6 @@ sed -i '/;date.timezone =/a\date.timezone = Asia/Shanghai' /etc/php.ini
 sed -i '/max_input_time =/s/60/300/' /etc/php.ini
 sed -i '/mbstring.func_overload = 0/a\mbstring.func_overload = 1' /etc/php.ini
 sed -i '/post_max_size =/s/8M/32M/' /etc/php.ini
-sed -i '/post_max_size =/s/8M/16M/' /etc/php.ini
 sed -i '/;always_populate_raw_post_data = -1/a\always_populate_raw_post_data = -1' /etc/php.ini
 
 echo "设置apache"
@@ -124,5 +123,5 @@ sleep 3
 /etc/init.d/zabbix_server restart
 /etc/init.d/zabbix_agentd restart
 echo "数据库默认root密码zabbix54321;zabbix-Database name:zabbix/User:zabbix/Password:zabbix"
-cp $zabbixdir/zabbix-2.4.7.tar.gz /var/www/html/zabbix
+cp $zabbixdir/zabbix-${zabbix_version}.tar.gz /var/www/html/zabbix
 echo "打开http://$ip/zabbix，进行下一步安装"
