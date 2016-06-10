@@ -1,7 +1,7 @@
 #!/bin/sh
 echo "脚本作者:火星小刘 web:www.huoxingxiaoliu.com email:xtlyk@163.com"
 
-sleep 10
+#sleep 10
 zabbix_version=3.0.3
 zabbixdir=`pwd`
 ip=`ip addr |grep inet |egrep -v "inet6|127.0.0.1" |awk '{print $2}' |awk -F "/" '{print $1}'`
@@ -11,7 +11,7 @@ cat $zabbixdir/README.md
 
 
 
-sleep 10
+#sleep 10
 echo "当前目录为:$zabbixdir"
 echo "本机ip为:$ip"
 echo "安装mysql、apache、php等相关组件"
