@@ -1,7 +1,7 @@
 # Quick-Installation-ZABBIX
 
 ##zabbix安装脚本v_3.1
-###脚本作者:火星小刘 web:www.huoxingxiaoliu.com email:xtlyk@126.com
+###脚本作者:火星小刘 web:www.huoxingxiaoliu.com email:xtlyk@163.com
 
  * 要求纯净centos6/7系统
  * 关闭防火墙
