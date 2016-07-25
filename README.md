@@ -18,18 +18,21 @@
 
 ####在被监控终端运行"agent-install.sh"安装
 
-###更新日志
-##2016-06-10更新  
+##更新日志
+###2016-07-25更新
+1. 升级zabbix到3.0.4
+
+###2016-06-10更新  
 1. 增加centos7支持  
 2. 添加zabbix_java启动  
 
-##2016-06-09更新  
+###2016-06-09更新  
 1. 升级zabbix到3.0.3  
 2. 添加吴兆松的graphtrees插件  
 [graphtrees github](https://github.com/OneOaaS/graphtrees)  
 [graphtrees 实现效果](http://t.cn/RqAeAxT)  
 
-##2015-11-20更新  
+###2015-11-20更新  
 1. agent-install.sh增加wget安装  
 2. 升级zabbix到2.4.7  
 3. server-install.sh复制zabbix-2.4.7.tar.gz到/var/www/html/zabbix，agent-install.sh从服务端调取zabbix-2.4.7.tar.gz安装包
