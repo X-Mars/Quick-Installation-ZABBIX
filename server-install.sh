@@ -19,13 +19,13 @@ sleep 3
 
 if [ $release = 7 ];then
 	rpm -Uvh http://mirrors.isu.net.sa/pub/fedora/fedora-epel/7/x86_64/e/epel-release-7-6.noarch.rpm
-	yum -y install php-xml unixODBC  php-xmlrpc php-mbstring php-mhash patch java-devel wget unzip libxml2 libxml2-devel httpd mariadb mariadb-devel mariadb-server php php-mysql php-common php-mbstring php-gd php-odbc php-pear curl curl-devel net-snmp net-snmp-devel perl-DBI php-xml ntpdate  php-bcmath zlib-devel glibc-devel curl-devel gcc automake libidn-devel openssl-devel net-snmp-devel rpm-devel OpenIPMI-devel
+	yum -y install php-xml unixODBC unixODBC-devel  php-xmlrpc php-mbstring php-mhash patch java-devel wget unzip libxml2 libxml2-devel httpd mariadb mariadb-devel mariadb-server php php-mysql php-common php-mbstring php-gd php-odbc php-pear curl curl-devel net-snmp net-snmp-devel perl-DBI php-xml ntpdate  php-bcmath zlib-devel glibc-devel curl-devel gcc automake libidn-devel openssl-devel net-snmp-devel rpm-devel OpenIPMI-devel
 	systemctl start mariadb.service
 elif [ $release = 6 ];then
 	yum remove php.x86_64 php-cli.x86_64 php-common.x86_64 php-gd.x86_64 php-ldap.x86_64 php-mbstring.x86_64 php-mcrypt.x86_64 php-mysql.x86_64 php-pdo.x86_64 -y
 	rpm -Uvh http://mirrors.isu.net.sa/pub/fedora/fedora-epel/6/i386/epel-release-6-8.noarch.rpm
 	rpm -Uvh http://mirror.webtatic.com/yum/el6/latest.rpm
-	yum install unixODBC patch java-devel wget unzip libxml2 libxml2-devel httpd mysql mysql-server  curl curl-devel net-snmp net-snmp-devel perl-DBI ntpdate zlib-devel mysql-devel glibc-devel gcc-c++ gcc automake mysql libidn-devel openssl-devel net-snmp-devel rpm-devel OpenIPMI-devel php56w.x86_64 php56w-cli.x86_64 php56w-common.x86_64 php56w-gd.x86_64 php56w-ldap.x86_64 php56w-mbstring.x86_64 php56w-mcrypt.x86_64 php56w-mysql.x86_64 php56w-pdo.x86_64 php56w-bcmath php56w-xml -y
+	yum install unixODBC unixODBC-devel patch java-devel wget unzip libxml2 libxml2-devel httpd mysql mysql-server  curl curl-devel net-snmp net-snmp-devel perl-DBI ntpdate zlib-devel mysql-devel glibc-devel gcc-c++ gcc automake mysql libidn-devel openssl-devel net-snmp-devel rpm-devel OpenIPMI-devel php56w.x86_64 php56w-cli.x86_64 php56w-common.x86_64 php56w-gd.x86_64 php56w-ldap.x86_64 php56w-mbstring.x86_64 php56w-mcrypt.x86_64 php56w-mysql.x86_64 php56w-pdo.x86_64 php56w-bcmath php56w-xml -y
 	service mysqld start
 fi
 
