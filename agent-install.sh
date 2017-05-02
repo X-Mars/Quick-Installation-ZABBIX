@@ -2,7 +2,7 @@
 echo "脚本作者:火星小刘 web:www.huoxingxiaoliu.com email:xtlyk@163.com"
 sleep 10
 zabbixdir=`pwd`
-zabbix_version=3.0.8
+zabbix_version=3.0.9
 ip=`ip addr |grep inet |egrep -v "inet6|127.0.0.1" |awk '{print $2}' |awk -F "/" '{print $1}'`
 echo "当前目录为:$zabbixdir"
 echo "本机ip为:$ip"
