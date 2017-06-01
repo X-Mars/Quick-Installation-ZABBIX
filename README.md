@@ -5,7 +5,7 @@
 ### web:www.huoxingxiaoliu.com 
 ### email:xtlyk@163.com
 
- * 要求纯净centos6/7系统
+ * 要求纯净centos6/7系统（强烈建议用7）
  * 关闭防火墙
  * 关闭selinux
  * php>=5.6
