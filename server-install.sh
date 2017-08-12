@@ -133,10 +133,18 @@ sleep 3
 sed -i '/#ServerName www.example.com:80/a\ServerName zabbix' /etc/httpd/conf/httpd.conf 
 if [ $release = 7 ];then
 	systemctl start httpd.service
+	systemctl enable httpd.service
+	systemctl enable mariadb
 elif [ $release = 6 ];then
+	chkconfig httpd on
+	chkconfig mysqld on
 	service httpd start
 fi
 
+echo "设置开机启动"
+echo "/etc/init.d/zabbix_server restart" >> /etc/rc.local
+echo "/etc/init.d/zabbix_agentd restart" >> /etc/rc.local
+echo "/usr/local/zabbix/sbin/zabbix_java/startup.sh" >> /etc/rc.local
 
 echo "启动zabbix"
 /etc/init.d/zabbix_server restart
