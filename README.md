@@ -22,6 +22,11 @@
 
 ## 更新日志
 
+### 2016-11-22更新  
+1. 添加吴兆松的**graphtrees**插件  
+[graphtrees github](https://github.com/OneOaaS/graphtrees)  
+[graphtrees 实现效果](http://t.cn/RqAeAxT)  
+
 ### 2017-11-10更新
 1. 升级zabbix到3.0.13
 
@@ -31,33 +36,10 @@
 ### 2017-06-01更新
 1. 删除graphtrees
 
-### 2017-05-02更新
-1. 升级zabbix到3.0.9
-
-### 2017-02-28更新
-1. 升级zabbix到3.0.8
-
-### 2016-12-29更新
-1. 升级zabbix到3.0.7
-
-### 2016-12-09更新
-1. 升级zabbix到3.0.6
-
-### 2016-07-25更新
-1. 升级zabbix到3.0.5
-
-### 2016-07-25更新
-1. 升级zabbix到3.0.4
 
 ### 2016-06-10更新  
 1. 增加centos7支持  
 2. 添加zabbix_java启动  
-
-### 2016-06-09更新  
-1. 升级zabbix到3.0.3  
-2. 添加吴兆松的**graphtrees**插件  
-[graphtrees github](https://github.com/OneOaaS/graphtrees)  
-[graphtrees 实现效果](http://t.cn/RqAeAxT)  
 
 ### 2015-11-20更新  
 1. agent-install.sh增加wget安装  
