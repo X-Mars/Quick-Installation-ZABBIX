@@ -22,6 +22,9 @@
 
 ## 更新日志
 
+### 2018-02-22更新
+1. 升级zabbix到3.0.14
+
 ### 2016-11-22更新  
 1. 添加吴兆松的**graphtrees**插件  
 [graphtrees github](https://github.com/OneOaaS/graphtrees)  
