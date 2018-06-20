@@ -129,7 +129,7 @@ sed -i '/max_input_time =/s/60/300/' /etc/php.ini
 sed -i '/mbstring.func_overload = 0/a\mbstring.func_overload = 1' /etc/php.ini
 sed -i '/post_max_size =/s/8M/32M/' /etc/php.ini
 sed -i '/;always_populate_raw_post_data = -1/a\always_populate_raw_post_data = -1' /etc/php.ini
-sed -i '/;date.timezone =/a\date.timezone = PRC' /etc/php.ini
+sed -i '/;date.timezone =/a\date.timezone = Asia\/Shanghai' /etc/php.ini
 
 echo "设置apache"
 sleep 3
