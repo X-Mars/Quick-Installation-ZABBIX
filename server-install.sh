@@ -75,7 +75,7 @@ sed -i "s/DejaVuSans/simkai/g" /var/www/html/zabbix/include/defines.inc.php
 cp graphtree3.0.4.patch /var/www/html/zabbix/
 cd /var/www/html/zabbix
 #wget https://raw.githubusercontent.com/OneOaaS/graphtrees/master/graphtree3-0-1.patch
-patch  -Np0 <graphtree3-0-4.patch
+patch  -Np0 <graphtree3.0.4.patch
 mkdir /var/www/html/zabbix/oneoaas/templates_c
 chmod 777 -R /var/www/html/zabbix/oneoaas/templates_c/
 
@@ -129,7 +129,7 @@ sed -i '/max_input_time =/s/60/300/' /etc/php.ini
 sed -i '/mbstring.func_overload = 0/a\mbstring.func_overload = 1' /etc/php.ini
 sed -i '/post_max_size =/s/8M/32M/' /etc/php.ini
 sed -i '/;always_populate_raw_post_data = -1/a\always_populate_raw_post_data = -1' /etc/php.ini
-sed -i '/;date.timezone =/a\date.timezone = Asia\/Shanghai' /etc/php.ini
+sed -i '/;date.timezone =/a\date.timezone = RPC' /etc/php.ini
 
 echo "设置apache"
 sleep 3
