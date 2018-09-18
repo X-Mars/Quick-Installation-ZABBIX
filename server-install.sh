@@ -2,7 +2,7 @@
 echo "脚本作者:火星小刘 web:www.huoxingxiaoliu.com email:xtlyk@163.com"
 
 #sleep 10
-zabbix_version=3.0.19
+zabbix_version=3.0.22
 zabbixdir=`pwd`
 ip=`ip addr |grep inet |egrep -v "inet6|127.0.0.1" |awk '{print $2}' |awk -F "/" '{print $1}'`
 release=`cat /etc/redhat-release | awk -F "release" '{print $2}' |awk -F "." '{print $1}' |sed 's/ //g'`
