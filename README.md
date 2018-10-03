@@ -12,7 +12,7 @@
  * php>=5.6
  * zabbix web ：Admin/zabbix
 
- * zabbix 4.0* 不支持 **graphtrees** ！！！
+ * zabbix 4.0 不支持 **graphtrees** ！！！
  
 #### 运行**server-install.sh**安装zabbix服务器端
 由于zabbix3需要php5.6以上，因此脚本会删除原有php环境从新安装  
