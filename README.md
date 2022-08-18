@@ -7,6 +7,10 @@
 ### 可配合本人微信报警脚本哦：https://github.com/X-Mars/Zabbix-Alert-WeChat
 ### 已上传zabbix 4.0 yum 安装脚本，欢迎搭建反馈
 
+### 交流群
+
+<img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/1.jpg?raw=true" width="25%" height="25%">
+
  * 要求纯净centos6/7系统（强烈建议用7，用6的话安装非常缓慢）
  * 关闭防火墙
  * 关闭selinux
