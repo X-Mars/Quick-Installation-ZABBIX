@@ -8,27 +8,12 @@
 
 ### 交流群
 
-<img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/1.jpg?raw=true" width="25%" height="25%">
-
- * 要求纯净centos6/7系统（强烈建议用7，用6的话安装非常缓慢）
- * 关闭防火墙
- * 关闭selinux
- * php>=5.6
- * zabbix web ：Admin/zabbix
-
- * zabbix 4.0 不支持 **graphtrees** ！！！
- 
-#### 运行**server-install.sh**安装zabbix服务器端
-由于zabbix3需要php5.6以上，因此脚本会删除原有php环境从新安装  
-  
-**mysql默认root密码123321**  
-**zabbix数据库名称zabbix**  
-**zabbix数据库用户名zabbix**  
-**zabbix数据库密码zabbix**  
-
-#### 在被监控终端运行**agent-install.sh**安装
+<img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/1.jpg?raw=true" width="25%" height="25%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/2.jpg?raw=true" width="25%" height="25%">
 
 ## 更新日志
+
+### 2023-09-12更新
+1. 增加 rocky linux 8 / 9 部署zabbix 6.0
 
 ### 2018-07-01更新
 1. 升级zabbix到3.0.19
