@@ -1,5 +1,5 @@
 # Quick-Installation-ZABBIX
-# 本项目不再更新 https://www.bilibili.com/video/BV1Qu411z7i1/ 可以点击此链接，查看zabbix 6.0 最新版本视频教程
+# https://www.bilibili.com/video/BV1Qu411z7i1/ 可以点击此链接，查看zabbix 6.0 最新版本视频教程
 ## zabbix安装脚本
 ### 脚本作者:火星小刘 
 ### web: www.huoxingxiaoliu.com 
@@ -11,6 +11,9 @@
 <img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/1.jpg?raw=true" width="25%" height="25%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/2.jpg?raw=true" width="45%" height="45%">
 
 ## 更新日志
+
+### 2023-09-13更新
+1. 增加 ubuntu 20 部署zabbix 6.0 beta 版本脚本
 
 ### 2023-09-12更新
 1. 增加 rocky linux 8 / 9 部署zabbix 6.0
