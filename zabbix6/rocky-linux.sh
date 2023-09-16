@@ -7,6 +7,26 @@ echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/"
 echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX"
 echo -e "\e[32m当前脚本介绍: \e[0m\e[33mInstall Zabbix 6.0 on Rocky Linux 9"
 
+# 获取操作系统信息，安装对应版本zabbix源，并替换为阿里云zabbix源
+# 检查 /etc/os-release 文件是否存在
+echo '检查操作系统版本...'
+if [ -e /etc/os-release ]; then
+    source /etc/os-release
+    rocky_version=$(echo "$VERSION_ID" | cut -d'.' -f1)
+    if [ "$ID" == "rocky" ] && ( [ "$rocky_version" == "9" ] ); then
+        # 下载zabbix-release 包
+        echo "操作系统版本为 Rocky Linux $rocky_version"
+        echo "安装适用于 RockyLinux $rocky_version 的 zabbix-release 包。"
+        sudo rpm -Uvh https://repo.zabbix.com/zabbix/6.0/rhel/${rocky_version}/x86_64/zabbix-release-6.0-4.el${rocky_version}.noarch.rpm
+    else
+        echo "不支持的操作系统版本，脚本停止运行。"
+        exit 1
+    fi
+else
+    echo "无法找到 /etc/os-release 文件，脚本无法运行。"
+    exit 1
+fi
+
 # 安装更换默认源为阿里云源
 sudo sed -e 's|^mirrorlist=|#mirrorlist=|g' \
     -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.aliyun.com/rockylinux|g' \
@@ -17,7 +37,6 @@ sudo dnf install epel-release -y
 sudo sed -i '/^\[epel\]/a excludepkgs=zabbix*' /etc/yum.repos.d/epel.repo
 
 # 安装zabbix源
-sudo rpm -Uvh https://repo.zabbix.com/zabbix/6.0/rhel/9/x86_64/zabbix-release-6.0-4.el9.noarch.rpm
 sudo sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/yum.repos.d/zabbix.repo
 sudo sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/yum.repos.d/zabbix-agent2-plugins.repo
 sudo mv /etc/yum.repos.d/zabbix-agent2-plugins.repo /etc/yum.repos.d/zabbix-agent2-plugins.repo-bak

@@ -20,10 +20,7 @@ if [ -f /etc/os-release ]; then
         # 构建下载URL并下载 zabbix-release 包
         zabbix_release_url="https://mirrors.aliyun.com/zabbix/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-4+ubuntu${VERSION_ID}_all.deb"
         curl -O "$zabbix_release_url"
-        
-        # 安装下载的包
         sudo dpkg -i "zabbix-release_6.0-4+ubuntu${VERSION_ID}_all.deb"
-        
         echo "已下载适用于 Ubuntu $VERSION_ID 的 zabbix-release 包。"
     else
         echo "不支持的操作系统版本，脚本停止运行。"
