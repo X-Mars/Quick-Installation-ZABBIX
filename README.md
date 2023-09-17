@@ -7,14 +7,17 @@
 ### 可配合本人微信报警脚本哦：https://github.com/X-Mars/Zabbix-Alert-WeChat
 
 ### 支持操作系统
-#### 已支持
-rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04
+1. 已支持 **centos 7 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04**
+2. 待支持 **openeuler 20 / openeuler 22**
 
 ### 交流群
 
 <img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/1.jpg?raw=true" width="25%" height="25%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/2.jpg?raw=true" width="45%" height="45%">
 
 ## 更新日志
+
+### 2023-09-17更新
+1. 增加 centos 7 部署zabbix 6.0 脚本
 
 ### 2023-09-16更新
 1. 增加 ubuntu 20 / 22 部署zabbix 6.0 脚本
