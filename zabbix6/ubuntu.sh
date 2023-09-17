@@ -1,10 +1,11 @@
-# Path: zabbix6/ubuntu-20.04.sh
+# Path: zabbix6/ubuntu.sh
 #!/bin/bash
 # Author: 火星小刘 / 中国青岛
 # Install Zabbix 6.0 on Ubuntu 20.04 / 22.04"
 
 echo -e "\e[32mAuthor: \e[0m\e[33m火星小刘 / 中国青岛"
 echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/"
+echo -e "\e[32m跟作者学运维开发: \e[0m\e[33mhttps://space.bilibili.com/439068477"
 echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX"
 echo -e "\e[32m当前脚本介绍: \e[0m\e[33mInstall Zabbix 6.0 on Ubuntu 20.04 / 22.04"
 
@@ -14,7 +15,6 @@ echo '检查操作系统版本...'
 if [ -f /etc/os-release ]; then
     # 导入 /etc/os-release 文件
     . /etc/os-release
-
     # 检查 ID 是否为 "ubuntu" 并且 VERSION_ID 是否定义
     if [ "$ID" == "ubuntu" ] && [ -n "$VERSION_ID" ]; then
         # 构建下载URL并下载 zabbix-release 包
@@ -38,7 +38,7 @@ sudo mv /etc/apt/sources.list.d/zabbix-agent2-plugins.list /etc/apt/sources.list
 # 安装mariadb源
 echo '安装mariadb源...'
 sudo curl -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
-sudo bash mariadb_repo_setup --mariadb-server-version=11.0.3
+sudo bash mariadb_repo_setup --mariadb-server-version=11.0
 
 # 安装zabbix、中文语言包、数据库
 echo 'zabbix、中文语言包、数据库...'
