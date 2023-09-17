@@ -1,4 +1,4 @@
-# Path: zabbix6/Centos-linux.sh
+# Path: zabbix6/centos-7.sh
 #!/bin/bash
 # Author: 火星小刘 / 中国青岛
 # Install Zabbix 6.0 on Centos Linux 7
