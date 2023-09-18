@@ -2,8 +2,6 @@
 # https://www.bilibili.com/video/BV1Qu411z7i1/ 可以点击此链接，查看zabbix 6.0 最新版本视频教程
 ## zabbix安装脚本
 ### 脚本作者:火星小刘 
-### web: www.huoxingxiaoliu.com 
-### email: xtlyk@163.com
 ### 可配合本人微信报警脚本哦：https://github.com/X-Mars/Zabbix-Alert-WeChat
 
 ### 支持操作系统
