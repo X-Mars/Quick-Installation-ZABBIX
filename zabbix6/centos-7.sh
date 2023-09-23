@@ -133,11 +133,10 @@ sudo setenforce 0
 
 sudo chown -R apache:apache /var/www/html/zabbix
 
-
-if [ -e "../simkai.ttf" ]; then
-  cp ../simkai.ttf /var/www/html/zabbix/assets/fonts
-  rm -f /var/www/html/zabbix/assets/fonts/graphfont.ttf
-  ln -s /var/www/html/zabbix/assets/fonts/simkai.ttf /var/www/html/zabbix/assets/fonts/graphfont.ttf
+echo "解决图表中文乱码问题..."
+if [ -e "$zabbixdir/Quick-Installation-ZABBIX/simkai.ttf" ]; then
+  cp $zabbixdir/Quick-Installation-ZABBIX/simkai.ttf /var/www/html/zabbix/assets/fonts
+  sed -i "s/DejaVuSans/simkai/g" /var/www/html/zabbix/include/defines.inc.php
 else
   echo -e "\e[31m中文字体simkai.ttf不存在，请确保通过git clone 下载本项目！！！\e[0m"
 fi
