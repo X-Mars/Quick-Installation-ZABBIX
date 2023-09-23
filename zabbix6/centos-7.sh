@@ -135,7 +135,8 @@ sudo chown -R apache:apache /var/www/html/zabbix
 
 echo "解决图表中文乱码问题..."
 
-cp $zabbixdir/simkai.ttf /var/www/html/zabbix/assets/fonts
+cd $zabbixdir
+cp ../simkai.ttf /var/www/html/zabbix/assets/fonts
 sed -i "s/DejaVuSans/simkai/g" /var/www/html/zabbix/include/defines.inc.php
 
 echo "设置开机启动"
