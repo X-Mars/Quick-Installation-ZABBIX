@@ -21,7 +21,7 @@ bash zabbix6.sh
 
 ### 注意事项
 1. debian需要手动执行 **dpkg-reconfigure locales** 安装中文语言包
-
+2. centos7系统，请使用 **zabbix6/centos-7.sh**
 ## 更新日志
 
 ### 2023-09-23更新
