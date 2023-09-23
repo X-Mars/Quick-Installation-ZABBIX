@@ -5,7 +5,7 @@
 ### 可配合本人微信报警脚本哦：https://github.com/X-Mars/Zabbix-Alert-WeChat
 
 ### 支持操作系统
-1. 已支持 **centos 7(编译安装) / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / debian 11 / debian 12**
+1. 已支持 **centos 7(编译安装) / centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / debian 11 / debian 12**
 2. 待支持 **openeuler 20 / openeuler 22**
 
 ### 交流群
