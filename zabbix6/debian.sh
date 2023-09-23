@@ -11,9 +11,9 @@ echo -e "\e[32m当前脚本介绍: \e[0m\e[33mInstall Zabbix 6.0 on Debian 11 / 
 
 # 检查当前用户是否是root用户
 if [ "$(id -u)" -eq 0 ]; then
-    echo "当前用户是root用户。"
+    echo "当前用户是root用户..."
 else
-    echo "请使用root用户运行本脚本。"
+    echo "请使用root用户运行本脚本..."
     exit 1
 fi
 
@@ -53,8 +53,8 @@ echo '安装mariadb源...'
 wget https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
 bash mariadb_repo_setup --mariadb-server-version=11.0
 
-# 安装zabbix、中文语言包、数据库
-echo 'zabbix、中文语言包、数据库...'
+# 安装zabbix、数据库
+echo 'zabbix、数据库...'
 apt update
 apt install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent mariadb-server mariadb-client -y
 
@@ -69,17 +69,17 @@ echo "grant all privileges on zabbix.* to zabbix@localhost;" | mariadb -uroot
 echo "set global log_bin_trust_function_creators = 1;" | mariadb -uroot
 
 # 导入初始化数据
-echo "导入初始化数据"
+echo "导入初始化数据..."
 zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mariadb --default-character-set=utf8mb4 -uzabbix -phuoxingxiaoliu zabbix
 sed -i 's/# DBPassword=/DBPassword=huoxingxiaoliu/g' /etc/zabbix/zabbix_server.conf
 
 echo "set global log_bin_trust_function_creators = 0;" | mariadb -uroot
 
 # 检查防火墙是否运行，配置防火墙
-echo '检查防火墙'
+echo '检查防火墙...'
 # 检查是否存在ufw命令
 if command -v ufw &>/dev/null; then
-    echo "ufw已安装在系统中."
+    echo "ufw已安装在系统中..."
 
     # 检查ufw是否已启用
     if ufw status | grep -q "Status: active"; then
@@ -88,10 +88,10 @@ if command -v ufw &>/dev/null; then
         ufw allow 10051/tcp
         ufw reload
     else
-        echo "ufw未启用."
+        echo "ufw未启用..."
     fi
 else
-    echo "ufw未安装在系统中."
+    echo "ufw未安装在系统中..."
 fi
 
 systemctl restart zabbix-server apache2 zabbix-agent
@@ -115,5 +115,6 @@ done
 
 echo -e "默认用户名密码： \e[31mAdmin / zabbix\e[0m"
 
-echo -e "\e[31m请手动执行 dpkg-reconfigure locales 安装中文语言包！！！\e[0m"
-echo -e "\e[31m执行后勾选 zh_CN.GB2312、zh_CN.GB18030、zh_CN.GBK、zh_CN.UTF-8！！！\e[0m"
+echo -e "\n\e[31m请手动执行 dpkg-reconfigure locales 安装中文语言包！！！\e[0m"
+echo -e "\e[31m执行后勾选 zh_CN.UTF-8！！！\e[0m"
+echo -e "\e[31m安装结束后，重启服务：systemctl restart zabbix-server zabbix-agent apache2\e[0m"
