@@ -179,3 +179,9 @@ echo -e "牢记以下启动命令，重启服务器时可能会用到： \e[31m"
 sudo -u zabbix /etc/init.d/zabbix_server restart
 sudo -u zabbix /etc/init.d/zabbix_agentd restart
 sudo -u zabbix /usr/local/zabbix/sbin/zabbix_java/startup.sh\e[0m"
+
+echo -e "\e[32m\n\nAuthor: \e[0m\e[33m火星小刘 / 中国青岛"
+echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/"
+echo -e "\e[32m跟作者学运维开发: \e[0m\e[33mhttps://space.bilibili.com/439068477"
+echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX"
+

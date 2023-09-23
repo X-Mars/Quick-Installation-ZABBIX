@@ -118,3 +118,8 @@ echo -e "默认用户名密码： \e[31mAdmin / zabbix\e[0m"
 echo -e "\n\e[31m请手动执行 dpkg-reconfigure locales 安装中文语言包！！！\e[0m"
 echo -e "\e[31m执行后勾选 zh_CN.UTF-8！！！\e[0m"
 echo -e "\e[31m安装结束后，重启服务：systemctl restart zabbix-server zabbix-agent apache2\e[0m"
+
+echo -e "\e[32m\n\nAuthor: \e[0m\e[33m火星小刘 / 中国青岛"
+echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/"
+echo -e "\e[32m跟作者学运维开发: \e[0m\e[33mhttps://space.bilibili.com/439068477"
+echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX"

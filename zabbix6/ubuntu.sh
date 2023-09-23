@@ -100,3 +100,8 @@ for i in $ip; do
 done
 
 echo -e "默认用户名密码： \e[31mAdmin / zabbix\e[0m"
+
+echo -e "\e[32m\n\nAuthor: \e[0m\e[33m火星小刘 / 中国青岛"
+echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/"
+echo -e "\e[32m跟作者学运维开发: \e[0m\e[33mhttps://space.bilibili.com/439068477"
+echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX"
