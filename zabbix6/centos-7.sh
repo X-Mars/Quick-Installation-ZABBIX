@@ -175,7 +175,7 @@ done
 
 echo -e "默认用户名密码： \e[31mAdmin / zabbix\e[0m"
 
-echo -e "牢记以下启动命令，重启服务器时可能会用到： \e[31m
+echo -e "牢记以下启动命令，重启服务器时可能会用到： \e[31m"
 sudo -u zabbix /etc/init.d/zabbix_server restart
 sudo -u zabbix /etc/init.d/zabbix_agentd restart
 sudo -u zabbix /usr/local/zabbix/sbin/zabbix_java/startup.sh\e[0m"
