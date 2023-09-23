@@ -9,10 +9,17 @@
 2. 待支持 **openeuler 20 / openeuler 22**
 
 ### 食用方法
+1. centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / debian 11 / debian 12 操作系统
 ```shell
 git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
 cd Quick-Installation-ZABBIX
 bash zabbix6.sh
+```
+2. centos 7(编译安装)
+```shell
+git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
+cd Quick-Installation-ZABBIX/zabbix6
+bash centos-7.sh
 ```
 
 ### 交流群
