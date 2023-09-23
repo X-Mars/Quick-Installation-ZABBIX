@@ -40,7 +40,6 @@ sudo mv /etc/yum.repos.d/zabbix-agent2-plugins.repo /etc/yum.repos.d/zabbix-agen
 
 # 安装mariadb源
 echo '安装mariadb源...'
-sudo curl -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
 sudo curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version=11.0
 
 sudo dnf clean all

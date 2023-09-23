@@ -67,7 +67,7 @@ else
 fi
 
 make install
-mkdir /var/www/html/zabbix
+mkdir -p /var/www/html/zabbix
 cp -r $zabbixdir/zabbix-${zabbix_version}/frontends/php/* /var/www/html/zabbix
 cp $zabbixdir/simkai.ttf /var/www/html/zabbix/fonts
 sed -i "s/DejaVuSans/simkai/g" /var/www/html/zabbix/include/defines.inc.php
@@ -120,7 +120,7 @@ chmod +x /etc/init.d/zabbix_*
 sed -i 's:DAEMON=/usr/local/sbin/zabbix_server:DAEMON=/usr/local/zabbix/sbin/zabbix_server:g' /etc/init.d/zabbix_server
 sed -i 's:DAEMON=/usr/local/sbin/zabbix_agentd:DAEMON=/usr/local/zabbix/sbin/zabbix_agentd:g' /etc/init.d/zabbix_agentd
 sed -i 's:DBUser=root:DBUser=zabbix:g' /usr/local/zabbix/etc/zabbix_server.conf
-sed -i '/# DBPassword=/a\DBPassword=zabbix' /usr/local/zabbix/etc/zabbix_server.conf
+sed -i '/# DBPassword=/a\DBPassword=huoxingxiaoliu' /usr/local/zabbix/etc/zabbix_server.conf
 echo "设置php.ini相关参数"
 sleep 3
 cp /etc/php.ini /etc/php.ini.zabbixbak

@@ -1,0 +1,228 @@
+#!/bin/bash
+# Author: 火星小刘 / 中国青岛
+# Install Zabbix 6.0 on CentOS, Rocky Linux, Debian, or Ubuntu
+
+echo -e "\e[32mAuthor: \e[0m\e[33m火星小刘 / 中国青岛\e[0m"
+echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/\e[0m"
+echo -e "\e[32m跟作者学运维开发: \e[0m\e[33mhttps://space.bilibili.com/439068477\e[0m"
+echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX\e[0m"
+echo -e "\e[32m当前脚本介绍: \e[0m\e[33mZabbix 6.0安装脚本\e[0m"
+echo -e "\e[32m支持的操作系统: \e[0m\e[33mcentos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / debian 11 / debian 12\e[0m"
+
+# 检查当前用户是否是root用户
+if [ "$(id -u)" -eq 0 ]; then
+  echo "当前用户是root用户..."
+else
+  echo "请使用root用户运行本脚本..."
+  exit 1
+fi
+
+install_zabbix_release_on_centos_or_rocky() {
+  echo '为CentOS或Rocky Linux安装zabbix源...'
+  dnf install epel-release -y
+  curl -O https://mirrors.aliyun.com/zabbix/zabbix/6.0/rhel/${VERSION_ID}/x86_64/zabbix-release-6.0-4.el${VERSION_ID}.noarch.rpm
+  rpm -ivh zabbix-release-6.0-4.el${VERSION_ID}.noarch.rpm
+  sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/yum.repos.d/zabbix.repo
+  sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/yum.repos.d/zabbix-agent2-plugins.repo
+  mv /etc/yum.repos.d/zabbix-agent2-plugins.repo /etc/yum.repos.d/zabbix-agent2-plugins.repo-bak
+  sed -i '/^\[epel\]/a excludepkgs=zabbix*' /etc/yum.repos.d/epel.repo
+}
+
+config_rocky(){
+  echo '为Rocky Linux配置阿里云源...'
+  for file in /etc/yum.repos.d/rocky-*.repo /etc/yum.repos.d/Rocky-*.repo; do
+    [ -e "$file" ] && cp "$file" "$file.bak" && sed -i -e 's|^mirrorlist=|#mirrorlist=|g' -e 's|^#baseurl=http://dl.rockylinux.org/\$contentdir|baseurl=https://mirrors.aliyun.com/rockylinux|g' "$file"
+  done
+  dnf module reset mariadb -y
+}
+
+config_firewalld_on_centos_or_rocky() {
+  echo '为CentOS或Rocky Linux配置防火墙...'
+  # 如果防火墙正在运行，配置防火墙
+  if systemctl status firewalld | grep -q "active (running)"; then
+    echo '配置防火墙...'
+    firewall-cmd --permanent --add-port={80/tcp,10051/tcp,443/tcp}
+    firewall-cmd --reload
+  fi
+  # 关闭selinux
+  sed -i 's/SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
+  setenforce 0
+}
+
+config_ufw_on_ubuntu_or_debian() {
+  echo '为Ubuntu或Debian配置防火墙...'
+  if command -v ufw &>/dev/null; then
+    echo "ufw已安装在系统中."
+
+    # 检查ufw是否已启用
+    if ufw status | grep -q "Status: active"; then
+      echo "ufw已启用，配置防火墙..."
+      ufw allow 80/tcp
+      ufw allow 443/tcp
+      ufw allow 10051/tcp
+      ufw reload
+    else
+        echo "ufw未启用."
+    fi
+  else
+    echo "ufw未安装在系统中."
+  fi
+}
+
+install_zabbix_release_on_debian() {
+  echo '为Debian安装zabbix源...'
+  apt install curl -y
+  if [ "$VERSION_ID" == "11" ]; then
+    curl -O https://mirrors.aliyun.com/zabbix/zabbix/6.0/${ID}/pool/main/z/zabbix-release/zabbix-release_6.0-4+${ID}${VERSION_ID}_all.deb
+    dpkg -i "zabbix-release_6.0-4+${ID}${VERSION_ID}_all.deb"
+  elif [ "$VERSION_ID" == "12" ]; then
+    curl -O https://mirrors.aliyun.com/zabbix/zabbix/6.0/${ID}/pool/main/z/zabbix-release/zabbix-release_6.0-5+${ID}${VERSION_ID}_all.deb
+    dpkg -i "zabbix-release_6.0-5+${ID}${VERSION_ID}_all.deb"
+  fi
+
+  sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix.list
+  sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix-agent2-plugins.list
+  mv /etc/apt/sources.list.d/zabbix-agent2-plugins.list /etc/apt/sources.list.d/zabbix-agent2-plugins.list-bak
+}
+
+install_zabbix_release_on_ubuntu() {
+  echo '为Ubuntu安装zabbix源...'
+  curl -O https://mirrors.aliyun.com/zabbix/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-4+ubuntu${VERSION_ID}_all.deb
+  dpkg -i zabbix-release_6.0-4+ubuntu${VERSION_ID}_all.deb
+  sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix.list
+  sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix-agent2-plugins.list
+  mv /etc/apt/sources.list.d/zabbix-agent2-plugins.list /etc/apt/sources.list.d/zabbix-agent2-plugins.list-bak
+}
+
+install_mariadb_release() {
+  echo '安装mariadb源...'
+  curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash -s -- --mariadb-server-version=11.0
+}
+
+init_database() {
+  echo '初始化数据库...'
+  echo "create database zabbix character set utf8mb4 collate utf8mb4_bin;" | mariadb -uroot
+  echo "create user zabbix@localhost identified by 'huoxingxiaoliu';" | mariadb -uroot
+  echo "grant all privileges on zabbix.* to zabbix@localhost;" | mariadb -uroot
+  echo "set global log_bin_trust_function_creators = 1;" | mariadb -uroot
+
+  # 导入初始化数据
+  zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mariadb --default-character-set=utf8mb4 -uzabbix -phuoxingxiaoliu zabbix
+  sed -i 's/# DBPassword=/DBPassword=huoxingxiaoliu/g' /etc/zabbix/zabbix_server.conf
+  echo "set global log_bin_trust_function_creators = 0;" | mariadb -uroot
+}
+
+centos_or_rocky_finsh() {
+  echo '安装完成，启动服务...'
+  # 启动服务
+  systemctl restart zabbix-server zabbix-agent httpd php-fpm
+  systemctl enable zabbix-server zabbix-agent httpd php-fpm
+  notification
+}
+
+ubuntu_or_debian_finsh() {
+  echo '安装完成，启动服务...'
+  # 启动服务
+  systemctl restart zabbix-server apache2 zabbix-agent
+  systemctl enable zabbix-server apache2 zabbix-agent
+  notification
+}
+
+change_font_to_chinese() {
+  echo "解决zabbix图表中文乱码问题"
+  if [ -e "simkai.ttf" ]; then
+    cp simkai.ttf /usr/share/zabbix/assets/fonts
+    rm -f /usr/share/zabbix/assets/fonts/graphfont.ttf
+    ln -s /usr/share/zabbix/assets/fonts/simkai.ttf /usr/share/zabbix/assets/fonts/graphfont.ttf
+  else
+    echo -e "\e[31m中文字体simkai.ttf不存在，请确保通过git clone 下载本项目！！！\e[0m"
+  fi
+
+}
+
+notification() {
+
+  echo -e "\e[32mAuthor: \e[0m\e[33m火星小刘 / 中国青岛\e[0m"
+  echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/\e[0m"
+  echo -e "\e[32m跟作者学运维开发: \e[0m\e[33mhttps://space.bilibili.com/439068477\e[0m"
+  echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX\e[0m"
+  echo -e "\e[32m当前脚本介绍: \e[0m\e[33mZabbix 6.0安装脚本\e[0m"
+  echo -e "\e[32m支持的操作系统: \e[0m\e[33mcentos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / debian 11 / debian 12\e[0m"
+
+  echo -e "\n\e[31m数据库root用户默认密码为空，zabbix用户默认密码 huoxingxiaoliu\e[0m"
+
+  # 获取ip
+  if command -v ip &> /dev/null; then
+    # 使用ip命令获取IP地址并存储到ip变量
+    ip=$(ip addr | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1)
+  else
+    # 使用ifconfig命令获取IP地址并存储到ip变量
+    ip=$(ifconfig | grep -oP 'inet\s+\K[\d.]+')
+  fi
+
+  # 使用for循环打印IP地址，并在每次打印后输出 "ok"
+  for i in $ip; do
+    echo -e "访问继续下一步操作： \e[31mhttp://$i/zabbix\e[0m"
+  done
+
+  echo -e "默认用户名密码： \e[31mAdmin / zabbix\e[0m"
+
+
+  if [ "$ID" == "debian" ]; then
+    echo -e "\n\e[31m请手动执行 dpkg-reconfigure locales 安装中文语言包！！！\e[0m"
+    echo -e "\e[31m执行后勾选 zh_CN.UTF-8！！！\e[0m"
+    echo -e "\e[31m安装结束后，重启服务：systemctl restart zabbix-server zabbix-agent apache2\e[0m"
+  fi
+}
+
+# 获取操作系统信息
+if [ -f /etc/os-release ]; then
+  . /etc/os-release
+  echo "操作系统版本为: $ID linux $VERSION_ID"
+  case "$ID" in
+    centos|rocky)
+      # CentOS 或 Rocky Linux 的安装步骤
+      VERSION_ID=$(echo "$VERSION_ID" | cut -d'.' -f1)
+      if ( [ "$VERSION_ID" == "8" ] || [ "$VERSION_ID" == "9" ]); then
+          install_zabbix_release_on_centos_or_rocky
+          install_mariadb_release
+          if [ "$ID" == "rocky" ]; then
+              config_rocky
+          fi
+          dnf install zabbix-server-mysql zabbix-web-mysql zabbix-apache-conf zabbix-sql-scripts zabbix-selinux-policy zabbix-agent MariaDB-server MariaDB-client MariaDB-backup MariaDB-devel langpacks-zh_CN -y
+          systemctl enable mariadb --now
+          change_font_to_chinese
+          init_database
+          config_firewalld_on_centos_or_rocky
+          centos_or_rocky_finsh
+      else
+          echo "不支持的操作系统版本，脚本停止运行。"
+          exit 1
+      fi
+      ;;
+    debian|ubuntu)
+      # Debian 的安装步骤
+      VERSION_ID_BIG=$(echo "$VERSION_ID" | cut -d'.' -f1)
+      if ( [ "$VERSION_ID" == "11" ] || [ "$VERSION_ID" == "12" ] || [ "$VERSION_ID_BIG" == "20" ] || [ "$VERSION_ID_BIG" == "22" ] ); then
+      
+          if [ "$ID" == "debian" ]; then
+            install_zabbix_release_on_debian
+          elif [ "$ID" == "ubuntu" ]; then
+            install_zabbix_release_on_ubuntu
+            apt install language-pack-zh-hans -y
+          fi
+          
+          install_mariadb_release
+          apt install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent mariadb-server mariadb-client -y
+          systemctl enable mariadb --now
+          change_font_to_chinese
+          init_database
+          config_ufw_on_ubuntu_or_debian
+          ubuntu_or_debian_finsh
+      else
+          echo "不支持的操作系统版本，脚本停止运行。"
+          exit 1
+      fi
+      ;;
+  esac
+fi

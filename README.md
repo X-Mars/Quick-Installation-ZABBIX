@@ -8,6 +8,13 @@
 1. 已支持 **centos 7(编译安装) / centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / debian 11 / debian 12**
 2. 待支持 **openeuler 20 / openeuler 22**
 
+### 食用方法
+```shell
+git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
+cd uick-Installation-ZABBIX
+bash zabbix6.sh
+```
+
 ### 交流群
 
 <img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/1.jpg?raw=true" width="25%" height="25%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/2.jpg?raw=true" width="45%" height="45%">
@@ -15,8 +22,10 @@
 ## 更新日志
 
 ### 2023-09-23更新
-1. 完美支持 centos 8 / 9
-2. 完美支持 debian 11 / 12
+1. 请使用同时支持**centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / debian 11 / debian 12** 的脚本 **zabbix6.sh**
+2. 解决图形界面中文乱码的问题（debian需要手动执行 **dpkg-reconfigure locales**）
+3. 完美支持 centos 8 / 9
+4. 完美支持 debian 11 / 12
 
 ### 2023-09-22更新
 1. 增加 debian 11支持，debian 12 需要进一步测试
