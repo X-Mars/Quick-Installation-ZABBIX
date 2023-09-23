@@ -6,11 +6,11 @@
 zabbix_version=6.0.21
 zabbixdir=`pwd`
 
-echo -e "\e[32mAuthor: \e[0m\e[33m火星小刘 / 中国青岛"
-echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/"
-echo -e "\e[32m跟作者学运维开发: \e[0m\e[33mhttps://space.bilibili.com/439068477"
-echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX"
-echo -e "\e[32m当前脚本介绍: \e[0m\e[33mInstall Zabbix 6.0 on Centos Linux 7"
+echo -e "\e[32mAuthor: \e[0m\e[33m火星小刘 / 中国青岛\e[0m"
+echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/\e[0m"
+echo -e "\e[32m跟作者学运维开发: \e[0m\e[33mhttps://space.bilibili.com/439068477\e[0m"
+echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX\e[0m"
+echo -e "\e[32m当前脚本介绍: \e[0m\e[33mInstall Zabbix 6.0 on Centos Linux 7\e[0m"
 
 # 获取操作系统信息，下载对应版本zabbix源码包
 # 检查 /etc/os-release 文件是否存在
@@ -42,12 +42,6 @@ sudo yum install pv gcc libxml2 libxml2-devel net-snmp net-snmp-devel libevent l
 sudo yum install https://rpms.remirepo.net/enterprise/remi-release-7.rpm -y
 sudo yum-config-manager --enable remi-php82
 sudo yum install php php-common php-cli php-fpm php-json php-common php-mysqlnd php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath php-json -y
-
-echo -e "\e[32mAuthor: \e[0m\e[33m火星小刘 / 中国青岛"
-echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/"
-echo -e "\e[32m跟作者学运维开发: \e[0m\e[33mhttps://space.bilibili.com/439068477"
-echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX"
-echo -e "\e[32m当前脚本介绍: \e[0m\e[33mInstall Zabbix 6.0 on Centos Linux 7"
 
 # 安装mariadb源
 echo '安装mariadb源...'
@@ -123,12 +117,6 @@ echo "/usr/local/zabbix/sbin/zabbix_java/startup.sh" >> /etc/rc.local
 
 sudo echo "set global log_bin_trust_function_creators = 0;" | mariadb -uroot
 
-echo -e "\e[32mAuthor: \e[0m\e[33m火星小刘 / 中国青岛"
-echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/"
-echo -e "\e[32m跟作者学运维开发: \e[0m\e[33mhttps://space.bilibili.com/439068477"
-echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX"
-echo -e "\e[32m当前脚本介绍: \e[0m\e[33mInstall Zabbix 6.0 on Centos Linux 7"
-
 # 修改php时区
 sudo sed -i 's/;date.timezone =/date.timezone = Asia\/Shanghai/g' /etc/php.ini
 
@@ -145,17 +133,25 @@ sudo setenforce 0
 
 sudo chown -R apache:apache /var/www/html/zabbix
 
+
+if [ -e "../simkai.ttf" ]; then
+  cp ../simkai.ttf /var/www/html/zabbix/assets/fonts
+  rm -f /var/www/html/zabbix/assets/fonts/graphfont.ttf
+  ln -s /var/www/html/zabbix/assets/fonts/simkai.ttf /var/www/html/zabbix/assets/fonts/graphfont.ttf
+else
+  echo -e "\e[31m中文字体simkai.ttf不存在，请确保通过git clone 下载本项目！！！\e[0m"
+fi
+
+echo "设置开机启动"
+echo "/etc/init.d/zabbix_server restart" >> /etc/rc.local
+echo "/etc/init.d/zabbix_agentd restart" >> /etc/rc.local
+echo "/usr/local/zabbix/sbin/zabbix_java/startup.sh" >> /etc/rc.local
+
 echo "启动zabbix"
 sudo -u zabbix /etc/init.d/zabbix_server restart
 sudo -u zabbix /etc/init.d/zabbix_agentd restart
 sudo -u zabbix /usr/local/zabbix/sbin/zabbix_java/startup.sh
 sudo systemctl enable httpd mariadb --now
-
-echo -e "\e[32mAuthor: \e[0m\e[33m火星小刘 / 中国青岛"
-echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/"
-echo -e "\e[32m跟作者学运维开发: \e[0m\e[33mhttps://space.bilibili.com/439068477"
-echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX"
-echo -e "\e[32m当前脚本介绍: \e[0m\e[33mInstall Zabbix 6.0 on Centos Linux 7"
 
 echo -e "数据库 \e[31mroot用户默认密码为空，zabbix用户默认密码 huoxingxiaoliu\e[0m"
 
@@ -175,13 +171,9 @@ done
 
 echo -e "默认用户名密码： \e[31mAdmin / zabbix\e[0m"
 
-echo -e "牢记以下启动命令，重启服务器时可能会用到： \e[31m"
-sudo -u zabbix /etc/init.d/zabbix_server restart
-sudo -u zabbix /etc/init.d/zabbix_agentd restart
-sudo -u zabbix /usr/local/zabbix/sbin/zabbix_java/startup.sh\e[0m"
+echo -e "牢记以下启动命令，重启服务器时可能会用到： \e[31m \n sudo -u zabbix /etc/init.d/zabbix_server restart \n sudo -u zabbix /etc/init.d/zabbix_agentd restart \n sudo -u zabbix /usr/local/zabbix/sbin/zabbix_java/startup.sh\e[0m"
 
-echo -e "\e[32m\n\nAuthor: \e[0m\e[33m火星小刘 / 中国青岛"
-echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/"
-echo -e "\e[32m跟作者学运维开发: \e[0m\e[33mhttps://space.bilibili.com/439068477"
-echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX"
-
+echo -e "\e[32m\n\nAuthor: \e[0m\e[33m火星小刘 / 中国青岛\e[0m"
+echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/\e[0m"
+echo -e "\e[32m跟作者学运维开发: \e[0m\e[33mhttps://space.bilibili.com/439068477\e[0m"
+echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX\e[0m"
