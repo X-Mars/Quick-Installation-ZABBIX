@@ -45,7 +45,6 @@ sudo yum install php php-common php-cli php-fpm php-json php-common php-mysqlnd 
 
 # 安装mariadb源
 echo '安装mariadb源...'
-sudo curl -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
 sudo curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version=11.0
 
 sudo yum clean all
@@ -68,7 +67,7 @@ echo "安装zabbix-${zabbix_version}"
 tar zxvf $zabbixdir/zabbix-${zabbix_version}.tar.gz
 cd $zabbixdir/zabbix-${zabbix_version}
 echo `pwd`
-./configure --prefix=/usr/local/zabbix/ --enable-server --enable-agent --with-mysql --with-net-snmp --with-libcurl --with-libxml2 --enable-java
+./configure --enable-server --enable-agent --with-mysql --with-net-snmp --with-libcurl --with-libxml2 --enable-java
 
 CPU_NUM=$(cat /proc/cpuinfo | grep processor | wc -l)
 if [ $CPU_NUM -gt 1 ];then
@@ -78,6 +77,7 @@ else
 fi
 
 make install
+
 mkdir -p /var/www/html/zabbix
 cp -r $zabbixdir/zabbix-${zabbix_version}/ui/* /var/www/html/zabbix
 cp /var/www/html/zabbix/conf/zabbix.conf.php.example /var/www/html/zabbix/conf/zabbix.conf.php
@@ -96,9 +96,7 @@ sleep 3
 cp misc/init.d/tru64/zabbix_agentd /etc/init.d/
 cp misc/init.d/tru64/zabbix_server /etc/init.d/
 chmod +x /etc/init.d/zabbix_*
-sed -i 's:DAEMON=/usr/local/sbin/zabbix_server:DAEMON=/usr/local/zabbix/sbin/zabbix_server:g' /etc/init.d/zabbix_server
-sed -i 's:DAEMON=/usr/local/sbin/zabbix_agentd:DAEMON=/usr/local/zabbix/sbin/zabbix_agentd:g' /etc/init.d/zabbix_agentd
-sed -i '/# DBPassword=/a\DBPassword=huoxingxiaoliu' /usr/local/zabbix/etc/zabbix_server.conf
+sed -i '/# DBPassword=/a\DBPassword=huoxingxiaoliu' /usr/local/etc/zabbix_server.conf
 
 echo "设置php.ini相关参数"
 sleep 3
@@ -113,7 +111,7 @@ sed -i '/;date.timezone =/a\date.timezone = PRC' /etc/php.ini
 echo "设置开机启动"
 echo "/etc/init.d/zabbix_server restart" >> /etc/rc.local
 echo "/etc/init.d/zabbix_agentd restart" >> /etc/rc.local
-echo "/usr/local/zabbix/sbin/zabbix_java/startup.sh" >> /etc/rc.local
+echo "/usr/local/sbin/zabbix_java/startup.sh" >> /etc/rc.local
 
 sudo echo "set global log_bin_trust_function_creators = 0;" | mariadb -uroot
 
@@ -142,12 +140,12 @@ sed -i "s/DejaVuSans/simkai/g" /var/www/html/zabbix/include/defines.inc.php
 echo "设置开机启动"
 echo "/etc/init.d/zabbix_server restart" >> /etc/rc.local
 echo "/etc/init.d/zabbix_agentd restart" >> /etc/rc.local
-echo "/usr/local/zabbix/sbin/zabbix_java/startup.sh" >> /etc/rc.local
+echo "/usr/local/sbin/zabbix_java/startup.sh" >> /etc/rc.local
 
 echo "启动zabbix"
 sudo -u zabbix /etc/init.d/zabbix_server restart
 sudo -u zabbix /etc/init.d/zabbix_agentd restart
-sudo -u zabbix /usr/local/zabbix/sbin/zabbix_java/startup.sh
+sudo -u zabbix /usr/local/sbin/zabbix_java/startup.sh
 sudo systemctl enable httpd mariadb --now
 
 echo -e "数据库 \e[31mroot用户默认密码为空，zabbix用户默认密码 huoxingxiaoliu\e[0m"
@@ -168,7 +166,7 @@ done
 
 echo -e "默认用户名密码： \e[31mAdmin / zabbix\e[0m"
 
-echo -e "牢记以下启动命令，重启服务器时可能会用到： \e[31m \n sudo -u zabbix /etc/init.d/zabbix_server restart \n sudo -u zabbix /etc/init.d/zabbix_agentd restart \n sudo -u zabbix /usr/local/zabbix/sbin/zabbix_java/startup.sh\e[0m"
+echo -e "牢记以下启动命令，重启服务器时可能会用到： \e[31m \n sudo -u zabbix /etc/init.d/zabbix_server restart \n sudo -u zabbix /etc/init.d/zabbix_agentd restart \n sudo -u zabbix /usr/local/sbin/zabbix_java/startup.sh\e[0m"
 
 echo -e "\e[32m\n\nAuthor: \e[0m\e[33m火星小刘 / 中国青岛\e[0m"
 echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/\e[0m"
