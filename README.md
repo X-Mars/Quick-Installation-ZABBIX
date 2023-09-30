@@ -9,8 +9,7 @@
 2. 待支持 **openeuler 20 / openeuler 22**
 
 ### 食用方法
-1. centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / debian 11 / debian 12 操作系统
-```shell
+1. centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / debian 11 / debian 12
 git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
 cd Quick-Installation-ZABBIX
 bash zabbix6.sh
@@ -29,7 +28,14 @@ bash centos-7.sh
 ### 注意事项
 1. debian需要手动执行 **dpkg-reconfigure locales** 安装中文语言包
 2. centos7系统，请使用 **zabbix6/centos-7.sh**
+
 ## 更新日志
+
+### 2023-09-30更新
+1. 默认拉取企业微信、飞书、钉钉告警脚本
+2. centos告警脚本路径 **/usr/local/share/zabbix/alertscripts**
+3. 其他操作系统告警脚本路径 **/usr/lib/zabbix/alertscripts**
+4. 可在报警媒介类型中手动添加各个脚本
 
 ### 2023-09-23更新
 1. 请使用同时支持**centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / debian 11 / debian 12** 的脚本 **zabbix6.sh**
