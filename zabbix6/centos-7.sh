@@ -34,6 +34,8 @@ fi
 echo '添加zabbix用户'
 groupadd --system zabbix
 useradd --system -g zabbix -d /usr/lib/zabbix -s /sbin/nologin -c "Zabbix Monitoring System" zabbix
+mkdir /var/log/zabbix
+chown zabbix.zabbix -R /var/log/zabbix
 
 sudo yum install epel-release -y
 sudo sed -i '/^\[epel\]/a excludepkgs=zabbix*' /etc/yum.repos.d/epel.repo
@@ -78,11 +80,11 @@ fi
 
 make install
 
+echo "拷贝php文件"
 mkdir -p /var/www/html/zabbix
 cp -r $zabbixdir/zabbix-${zabbix_version}/ui/* /var/www/html/zabbix
 cp /var/www/html/zabbix/conf/zabbix.conf.php.example /var/www/html/zabbix/conf/zabbix.conf.php
 sed -i "s/\$DB\['PASSWORD'\]\s*=\s*'';/\$DB\['PASSWORD'\] = 'huoxingxiaoliu';/" /var/www/html/zabbix/conf/zabbix.conf.php
-
 
 echo "导入zabbix数据库"
 
@@ -107,6 +109,10 @@ sed -i '/mbstring.func_overload = 0/a\mbstring.func_overload = 1' /etc/php.ini
 sed -i '/post_max_size =/s/8M/32M/' /etc/php.ini
 sed -i '/;always_populate_raw_post_data = -1/a\always_populate_raw_post_data = -1' /etc/php.ini
 sed -i '/;date.timezone =/a\date.timezone = PRC' /etc/php.ini
+
+echo "配置zabbix 日志"
+sed -i 's#^LogFile=.*#LogFile=/var/log/zabbix/zabbix_server.log#' /usr/local/etc/zabbix_server.conf
+sed -i 's#^LogFile=.*#LogFile=/var/log/zabbix/zabbix_agentd.log#' /usr/local/etc/zabbix_agentd.conf
 
 echo "设置开机启动"
 echo "/etc/init.d/zabbix_server restart" >> /etc/rc.local
@@ -143,9 +149,9 @@ echo "/etc/init.d/zabbix_agentd restart" >> /etc/rc.local
 echo "/usr/local/sbin/zabbix_java/startup.sh" >> /etc/rc.local
 
 echo "启动zabbix"
-sudo -u zabbix /etc/init.d/zabbix_server restart
-sudo -u zabbix /etc/init.d/zabbix_agentd restart
-sudo -u zabbix /usr/local/sbin/zabbix_java/startup.sh
+sudo /etc/init.d/zabbix_server restart
+sudo /etc/init.d/zabbix_agentd restart
+sudo /usr/local/sbin/zabbix_java/startup.sh
 sudo systemctl enable httpd mariadb --now
 
 echo -e "数据库 \e[31mroot用户默认密码为空，zabbix用户默认密码 huoxingxiaoliu\e[0m"
@@ -166,7 +172,7 @@ done
 
 echo -e "默认用户名密码： \e[31mAdmin / zabbix\e[0m"
 
-echo -e "牢记以下启动命令，重启服务器时可能会用到： \e[31m \n sudo -u zabbix /etc/init.d/zabbix_server restart \n sudo -u zabbix /etc/init.d/zabbix_agentd restart \n sudo -u zabbix /usr/local/sbin/zabbix_java/startup.sh\e[0m"
+echo -e "牢记以下启动命令，重启服务器时可能会用到： \e[31m \n sudo /etc/init.d/zabbix_server restart \n sudo /etc/init.d/zabbix_agentd restart \n sudo /usr/local/sbin/zabbix_java/startup.sh\e[0m"
 
 echo -e "\e[32m\n\nAuthor: \e[0m\e[33m火星小刘 / 中国青岛\e[0m"
 echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/\e[0m"
