@@ -175,6 +175,14 @@ notification() {
   fi
 }
 
+
+add_wechat_dingtalk_feishu_scripts() {
+  echo -e "\n\e[31m拉取企业微信、钉钉、飞书告警脚本，具体查看：https://github.com/X-Mars/Zabbix-Alert-WeChat\e[0m"
+  echo -e "\e[31m此操作不影响zabbix使用\e[0m"
+  echo -e "\e[31m运行命令：ls -la /usr/lib/zabbix/alertscripts 查看脚本\e[0m"
+  git clone https://github.com/X-Mars/Zabbix-Alert-WeChat.git /usr/lib/zabbix/alertscripts
+}
+
 # 获取操作系统信息
 if [ -f /etc/os-release ]; then
   . /etc/os-release
@@ -195,6 +203,7 @@ if [ -f /etc/os-release ]; then
           init_database
           config_firewalld_on_centos_or_rocky
           centos_or_rocky_finsh
+          add_wechat_dingtalk_feishu_scripts
       else
           echo "不支持的操作系统版本，脚本停止运行。"
           exit 1
@@ -219,6 +228,7 @@ if [ -f /etc/os-release ]; then
           init_database
           config_ufw_on_ubuntu_or_debian
           ubuntu_or_debian_finsh
+          add_wechat_dingtalk_feishu_scripts
       else
           echo "不支持的操作系统版本，脚本停止运行。"
           exit 1
