@@ -10,6 +10,7 @@
 
 ### 食用方法
 1. centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / debian 11 / debian 12
+```shell
 git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
 cd Quick-Installation-ZABBIX
 bash zabbix6.sh
