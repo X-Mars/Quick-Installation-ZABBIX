@@ -87,6 +87,7 @@ install_zabbix_release_on_debian() {
 
 install_zabbix_release_on_ubuntu() {
   echo '为Ubuntu安装zabbix源...'
+  apt install curl -y
   curl -O https://mirrors.aliyun.com/zabbix/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-4+ubuntu${VERSION_ID}_all.deb
   dpkg -i zabbix-release_6.0-4+ubuntu${VERSION_ID}_all.deb
   sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix.list
