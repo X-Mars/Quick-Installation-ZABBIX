@@ -15,22 +15,25 @@ git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
 cd Quick-Installation-ZABBIX
 bash zabbix6.sh
 ```
-2. centos 7(编译安装)
+2. centos 7(编译安装，极其非常不推荐！！！)
 ```shell
 git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
 cd Quick-Installation-ZABBIX/zabbix6
 bash centos-7.sh
 ```
 
-### 交流群
-
-<img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/1.jpg?raw=true" width="25%" height="25%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/2.jpg?raw=true" width="45%" height="45%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/3.png?raw=true" width="30%" height="30%">
-
 ### 注意事项
 1. debian需要手动执行 **dpkg-reconfigure locales** 安装中文语言包
 2. centos7系统，请使用 **zabbix6/centos-7.sh**
 
+### 交流群
+
+<img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/1.jpg?raw=true" width="25%" height="25%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/2.jpg?raw=true" width="45%" height="45%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/3.png?raw=true" width="30%" height="30%">
+
 ## 更新日志
+
+### 2023-10-08更新
+1. 添加数据库安装状态检测,数据库安装失败将提醒重新安装，并退出脚本
 
 ### 2023-09-30更新
 1. 默认拉取企业微信、飞书、钉钉告警脚本

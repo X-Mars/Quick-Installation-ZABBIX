@@ -38,7 +38,7 @@ config_rocky(){
 
 config_firewalld_on_centos_or_rocky() {
   echo '为CentOS或Rocky Linux配置防火墙...'
-  # 如果防火墙正在运行，配置防火墙
+  # 如果防火墙正在运行,配置防火墙
   if systemctl status firewalld | grep -q "active (running)"; then
     echo '配置防火墙...'
     firewall-cmd --permanent --add-port={80/tcp,10051/tcp,443/tcp}
@@ -56,7 +56,7 @@ config_ufw_on_ubuntu_or_debian() {
 
     # 检查ufw是否已启用
     if ufw status | grep -q "Status: active"; then
-      echo "ufw已启用，配置防火墙..."
+      echo "ufw已启用,配置防火墙..."
       ufw allow 80/tcp
       ufw allow 443/tcp
       ufw allow 10051/tcp
@@ -114,7 +114,7 @@ init_database() {
 }
 
 centos_or_rocky_finsh() {
-  echo '安装完成，启动服务...'
+  echo '安装完成,启动服务...'
   # 启动服务
   systemctl restart zabbix-server zabbix-agent httpd php-fpm
   systemctl enable zabbix-server zabbix-agent httpd php-fpm
@@ -122,7 +122,7 @@ centos_or_rocky_finsh() {
 }
 
 ubuntu_or_debian_finsh() {
-  echo '安装完成，启动服务...'
+  echo '安装完成,启动服务...'
   # 启动服务
   systemctl restart zabbix-server apache2 zabbix-agent
   systemctl enable zabbix-server apache2 zabbix-agent
@@ -136,7 +136,7 @@ change_font_to_chinese() {
     rm -f /usr/share/zabbix/assets/fonts/graphfont.ttf
     ln -s /usr/share/zabbix/assets/fonts/simkai.ttf /usr/share/zabbix/assets/fonts/graphfont.ttf
   else
-    echo -e "\e[31m中文字体simkai.ttf不存在，请确保通过git clone 下载本项目！！！\e[0m"
+    echo -e "\e[31m中文字体simkai.ttf不存在,请确保通过git clone 下载本项目！！！\e[0m"
   fi
 
 }
@@ -150,7 +150,7 @@ notification() {
   echo -e "\e[32m当前脚本介绍: \e[0m\e[33mZabbix 6.0安装脚本\e[0m"
   echo -e "\e[32m支持的操作系统: \e[0m\e[33mcentos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / debian 11 / debian 12\e[0m"
 
-  echo -e "\n\e[31m数据库root用户默认密码为空，zabbix用户默认密码 huoxingxiaoliu\e[0m"
+  echo -e "\n\e[31m数据库root用户默认密码为空,zabbix用户默认密码 huoxingxiaoliu\e[0m"
 
   # 获取ip
   if command -v ip &> /dev/null; then
@@ -161,27 +161,28 @@ notification() {
     ip=$(ifconfig | grep -oP 'inet\s+\K[\d.]+')
   fi
 
-  # 使用for循环打印IP地址，并在每次打印后输出 "ok"
+  # 使用for循环打印IP地址,并在每次打印后输出 "ok"
   for i in $ip; do
-    echo -e "访问继续下一步操作： \e[31mhttp://$i/zabbix\e[0m"
+    echo -e "\e[32m访问继续下一步操作:  http://$i/zabbix\e[0m"
   done
 
-  echo -e "默认用户名密码： \e[31mAdmin / zabbix\e[0m"
+  echo -e "\e[32m默认用户名密码:  Admin / zabbix\e[0m"
 
 
   if [ "$ID" == "debian" ]; then
     echo -e "\n\e[31m请手动执行 dpkg-reconfigure locales 安装中文语言包！！！\e[0m"
     echo -e "\e[31m执行后勾选 zh_CN.UTF-8！！！\e[0m"
-    echo -e "\e[31m安装结束后，重启服务：systemctl restart zabbix-server zabbix-agent apache2\e[0m"
+    echo -e "\e[31m安装结束后,重启服务: systemctl restart zabbix-server zabbix-agent apache2\e[0m"
   fi
 }
 
 
 add_wechat_dingtalk_feishu_scripts() {
-  echo -e "\n\e[31m拉取企业微信、钉钉、飞书告警脚本，具体查看：https://github.com/X-Mars/Zabbix-Alert-WeChat\e[0m"
+  echo -e "\n\e[31m拉取企业微信、钉钉、飞书告警脚本,具体查看: https://github.com/X-Mars/Zabbix-Alert-WeChat\e[0m"
   echo -e "\e[31m此操作不影响zabbix使用\e[0m"
-  echo -e "\e[31m运行命令：ls -la /usr/lib/zabbix/alertscripts 查看脚本\e[0m"
+  echo -e "\e[31m运行命令: ls -la /usr/lib/zabbix/alertscripts 查看脚本\e[0m"
   git clone https://github.com/X-Mars/Zabbix-Alert-WeChat.git /usr/lib/zabbix/alertscripts
+  ls -la /usr/lib/zabbix/alertscripts
 }
 
 # 获取操作系统信息
@@ -198,20 +199,29 @@ if [ -f /etc/os-release ]; then
           if [ "$ID" == "rocky" ]; then
               config_rocky
           fi
-          dnf install zabbix-server-mysql zabbix-web-mysql zabbix-apache-conf zabbix-sql-scripts zabbix-selinux-policy zabbix-agent MariaDB-server MariaDB-client MariaDB-backup MariaDB-devel langpacks-zh_CN -y
+          dnf install zabbix-server-mysql zabbix-web-mysql zabbix-apache-conf zabbix-sql-scripts zabbix-selinux-policy zabbix-agent MariaDB-server MariaDB-client MariaDB-backup MariaDB-devel langpacks-zh_CN git -y
           systemctl enable mariadb --now
+          if systemctl is-active mariadb; then
+            echo "MariaDB 安装成功。"
+          else
+            echo -e "\e[91mMariaDB 安装失败,怀疑是网络问题（你懂得）。请使用以下命令安装 MariaDB 后重试: \e[0m"
+            echo -e "\e[91m安装 MariaDB 源: curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash -s -- --mariadb-server-version=11.0\e[0m"
+            echo -e "\e[91m安装 MariaDB: dnf install MariaDB-server MariaDB-client MariaDB-backup MariaDB-devel -y\e[0m"
+            echo -e "\e[91m启动 MariaDB: systemctl enable mariadb --now\e[0m"
+            exit 1
+          fi
           change_font_to_chinese
           init_database
           config_firewalld_on_centos_or_rocky
           centos_or_rocky_finsh
           add_wechat_dingtalk_feishu_scripts
       else
-          echo "不支持的操作系统版本，脚本停止运行。"
+          echo "不支持的操作系统版本,脚本停止运行。"
           exit 1
       fi
       ;;
     debian|ubuntu)
-      # Debian 的安装步骤
+      # Debian 或 Ubuntu 的安装步骤
       VERSION_ID_BIG=$(echo "$VERSION_ID" | cut -d'.' -f1)
       if ( [ "$VERSION_ID" == "11" ] || [ "$VERSION_ID" == "12" ] || [ "$VERSION_ID_BIG" == "20" ] || [ "$VERSION_ID_BIG" == "22" ] ); then
       
@@ -223,15 +233,24 @@ if [ -f /etc/os-release ]; then
           fi
           
           install_mariadb_release
-          apt install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent mariadb-server mariadb-client -y
+          apt install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent mariadb-server mariadb-client git -y
           systemctl enable mariadb --now
+          if systemctl is-active mariadb; then
+            echo "MariaDB 安装成功。"
+          else
+            echo -e "\e[91mMariaDB 安装失败,怀疑是网络问题（你懂得）。请使用以下命令安装 MariaDB 后重试: \e[0m"
+            echo -e "\e[91m安装 MariaDB 源: curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash -s -- --mariadb-server-version=11.0\e[0m"
+            echo -e "\e[91m安装 MariaDB: apt install mariadb-server mariadb-client -y\e[0m"
+            echo -e "\e[91m启动 MariaDB: systemctl enable mariadb --now\e[0m"
+            exit 1
+          fi
           change_font_to_chinese
           init_database
           config_ufw_on_ubuntu_or_debian
           ubuntu_or_debian_finsh
           add_wechat_dingtalk_feishu_scripts
       else
-          echo "不支持的操作系统版本，脚本停止运行。"
+          echo "不支持的操作系统版本,脚本停止运行。"
           exit 1
       fi
       ;;
