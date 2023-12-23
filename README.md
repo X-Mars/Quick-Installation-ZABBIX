@@ -15,7 +15,7 @@ git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
 cd Quick-Installation-ZABBIX
 bash zabbix6.sh
 ```
-2. centos 7(编译安装，极其非常不推荐！！！)
+2. centos 7(编译安装，**极其非常不推荐！！！**)
 ```shell
 git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
 cd Quick-Installation-ZABBIX/zabbix6
@@ -33,7 +33,7 @@ bash centos-7.sh
 ## 更新日志
 
 ### 2023-10-08更新
-1. 添加数据库安装状态检测,数据库安装失败将提醒重新安装，并退出脚本
+1. 添加数据库安装状态检测，数据库安装失败将提醒重新安装，并退出脚本
 
 ### 2023-09-30更新
 1. 默认拉取企业微信、飞书、钉钉告警脚本
