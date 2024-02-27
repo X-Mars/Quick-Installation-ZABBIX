@@ -97,3 +97,8 @@ bash centos-7.sh
 1. agent-install.sh增加wget安装  
 2. 升级zabbix到2.4.7  
 3. server-install.sh复制zabbix-2.4.7.tar.gz到/var/www/html/zabbix，agent-install.sh从服务端调取zabbix-2.4.7.tar.gz安装包
+
+# Star History
+
+**请给该项目一个star，您的点赞就是对我最大的支持与鼓励**
+[![Star History Chart](https://api.star-history.com/svg?repos=X-Mars/Quick-Installation-ZABBIX&type=Date)](https://star-history.com/#X-Mars/Quick-Installation-ZABBIX&Date)
