@@ -3,7 +3,7 @@
 # Author: 火星小刘 / 中国青岛
 # Install Zabbix 6.0 on Centos Linux 7
 
-zabbix_version=6.0.22
+zabbix_version=6.0.29
 zabbixdir=`pwd`
 
 echo -e "\e[32mAuthor: \e[0m\e[33m火星小刘 / 中国青岛\e[0m"
