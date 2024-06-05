@@ -5,11 +5,20 @@
 ### 可配合本人微信报警脚本哦：https://github.com/X-Mars/Zabbix-Alert-WeChat
 
 ### 支持操作系统
-1. 已支持 **centos 7(编译安装) / centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / debian 11 / debian 12**
-2. 待支持 **openeuler 20 / openeuler 22**
+1. **zabbix6.sh** 已支持 **centos 7(编译安装) / centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / ubuntu 24.04 / debian 11 / debian 12**
+2. **zabbix7.sh** 已支持 **centos 8(未严格测试) / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 22.04(未严格测试) / ubuntu 24.04(未严格测试) / debian 12**
+3. 待支持 **openeuler 20 / openeuler 22**
 
-### 食用方法
-1. centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / debian 11 / debian 12
+### zabbix 7.0 食用方法
+1. centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 22.04 / ubuntu 24.04 / debian 12
+```shell
+git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
+cd Quick-Installation-ZABBIX
+bash zabbix7.sh
+```
+
+### zabbix 6.0 食用方法
+1. centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / ubuntu 24.04 / debian 11 / debian 12
 ```shell
 git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
 cd Quick-Installation-ZABBIX
@@ -31,6 +40,10 @@ bash centos-7.sh
 <img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/1.jpg?raw=true" width="25%" height="25%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/2.jpg?raw=true" width="45%" height="45%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/3.png?raw=true" width="30%" height="30%">
 
 ## 更新日志
+
+### 2024-06-05更新
+1. 添加zabbix 7.0 安装脚本 **zabbix7.sh**，请注意，该脚本当前为**beta版本**
+2. zabbix 6.0 添加ubuntu 24.04 支持
 
 ### 2023-10-08更新
 1. 添加数据库安装状态检测，数据库安装失败将提醒重新安装，并退出脚本
