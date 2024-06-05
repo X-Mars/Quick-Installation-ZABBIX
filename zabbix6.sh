@@ -88,8 +88,13 @@ install_zabbix_release_on_debian() {
 install_zabbix_release_on_ubuntu() {
   echo '为Ubuntu安装zabbix源...'
   apt install curl -y
-  curl -O https://mirrors.aliyun.com/zabbix/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-4+ubuntu${VERSION_ID}_all.deb
+  if [ "$VERSION_ID" == "24.04" ]; then
+    curl -O https://mirrors.aliyun.com/zabbix/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-6+ubuntu${VERSION_ID}_all.deb
+    dpkg -i zabbix-release_6.0-6+ubuntu${VERSION_ID}_all.deb
+  else
+    curl -O https://mirrors.aliyun.com/zabbix/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-4+ubuntu${VERSION_ID}_all.deb
   dpkg -i zabbix-release_6.0-4+ubuntu${VERSION_ID}_all.deb
+  fi
   sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix.list
   sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix-agent2-plugins.list
   mv /etc/apt/sources.list.d/zabbix-agent2-plugins.list /etc/apt/sources.list.d/zabbix-agent2-plugins.list-bak
@@ -223,7 +228,7 @@ if [ -f /etc/os-release ]; then
     debian|ubuntu)
       # Debian 或 Ubuntu 的安装步骤
       VERSION_ID_BIG=$(echo "$VERSION_ID" | cut -d'.' -f1)
-      if ( [ "$VERSION_ID" == "11" ] || [ "$VERSION_ID" == "12" ] || [ "$VERSION_ID_BIG" == "20" ] || [ "$VERSION_ID_BIG" == "22" ] ); then
+      if ( [ "$VERSION_ID" == "11" ] || [ "$VERSION_ID" == "12" ] || [ "$VERSION_ID_BIG" == "20" ] || [ "$VERSION_ID_BIG" == "22" ] || [ "$VERSION_ID_BIG" == "24" ] ); then
       
           if [ "$ID" == "debian" ]; then
             install_zabbix_release_on_debian
