@@ -21,10 +21,10 @@ install_zabbix_release_on_centos_or_rocky() {
   echo '为CentOS或Rocky Linux安装zabbix源...'
   dnf install epel-release -y
   if [ "$VERSION_ID" == "9" ]; then
-    curl -O https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/7.0/centos/${VERSION_ID}/x86_64/zabbix-release-7.0-2.el${VERSION_ID}.noarch.rpm
+    curl -O https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/7.0/${ID}/${VERSION_ID}/x86_64/zabbix-release-7.0-2.el${VERSION_ID}.noarch.rpm
     rpm -ivh zabbix-release-7.0-2.el${VERSION_ID}.noarch.rpm
   elif [ "$VERSION_ID" == "8" ]; then
-    curl -O https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/7.0/centos/${VERSION_ID}/x86_64/zabbix-release-7.0-1.el${VERSION_ID}.noarch.rpm
+    curl -O https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/7.0/${ID}/${VERSION_ID}/x86_64/zabbix-release-7.0-1.el${VERSION_ID}.noarch.rpm
     rpm -ivh zabbix-release-7.0-1.el${VERSION_ID}.noarch.rpm
     dnf module switch-to php:8.0 -y
   fi
@@ -75,23 +75,12 @@ config_ufw_on_ubuntu_or_debian() {
   fi
 }
 
-install_zabbix_release_on_debian() {
-  echo '为Debian安装zabbix源...'
+install_zabbix_release_on_ubuntu_or_debain() {
+  echo '为Ubuntu或Debian安装zabbix源...'
   apt install curl -y
   curl -O https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/7.0/${ID}/pool/main/z/zabbix-release/zabbix-release_7.0-1+${ID}${VERSION_ID}_all.deb
   dpkg -i "zabbix-release_7.0-1+${ID}${VERSION_ID}_all.deb"
 
-  # sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix.list
-  # sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix-agent2-plugins.list
-  mv /etc/apt/sources.list.d/zabbix-agent2-plugins.list /etc/apt/sources.list.d/zabbix-agent2-plugins.list-bak
-}
-
-install_zabbix_release_on_ubuntu() {
-  echo '为Ubuntu安装zabbix源...'
-  apt install curl -y
-  curl -O https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/7.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_7.0-1+ubuntu${VERSION_ID}_all.deb
-  dpkg -i zabbix-release_7.0-1+ubuntu${VERSION_ID}_all.deb
-  
   # sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix.list
   # sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix-agent2-plugins.list
   mv /etc/apt/sources.list.d/zabbix-agent2-plugins.list /etc/apt/sources.list.d/zabbix-agent2-plugins.list-bak
@@ -170,7 +159,6 @@ notification() {
 
   echo -e "\e[32m默认用户名密码:  Admin / zabbix\e[0m"
 
-
   if [ "$ID" == "debian" ]; then
     echo -e "\n\e[31m请手动执行 dpkg-reconfigure locales 安装中文语言包！！！\e[0m"
     echo -e "\e[31m执行后勾选 zh_CN.UTF-8！！！\e[0m"
@@ -227,10 +215,8 @@ if [ -f /etc/os-release ]; then
       VERSION_ID_BIG=$(echo "$VERSION_ID" | cut -d'.' -f1)
       if ( [ "$VERSION_ID" == "12" ] || [ "$VERSION_ID_BIG" == "22" ] || [ "$VERSION_ID_BIG" == "24" ] ); then
       
-          if [ "$ID" == "debian" ]; then
-            install_zabbix_release_on_debian
-          elif [ "$ID" == "ubuntu" ]; then
-            install_zabbix_release_on_ubuntu
+          install_zabbix_release_on_ubuntu_or_debain
+          if [ "$ID" == "ubuntu" ]; then
             apt install language-pack-zh-hans -y
           fi
           
