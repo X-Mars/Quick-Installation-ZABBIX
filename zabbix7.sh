@@ -28,8 +28,8 @@ install_zabbix_release_on_centos_or_rocky() {
     rpm -ivh zabbix-release-7.0-1.el${VERSION_ID}.noarch.rpm
     dnf module switch-to php:8.0 -y
   fi
-  # sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/yum.repos.d/zabbix.repo
-  # sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/yum.repos.d/zabbix-agent2-plugins.repo
+  sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/yum.repos.d/zabbix.repo
+  sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/yum.repos.d/zabbix-agent2-plugins.repo
   mv /etc/yum.repos.d/zabbix-agent2-plugins.repo /etc/yum.repos.d/zabbix-agent2-plugins.repo-bak
   sed -i '/^\[epel\]/a excludepkgs=zabbix*' /etc/yum.repos.d/epel.repo
 }
@@ -81,8 +81,8 @@ install_zabbix_release_on_ubuntu_or_debain() {
   curl -O https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/7.0/${ID}/pool/main/z/zabbix-release/zabbix-release_7.0-1+${ID}${VERSION_ID}_all.deb
   dpkg -i "zabbix-release_7.0-1+${ID}${VERSION_ID}_all.deb"
 
-  # sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix.list
-  # sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix-agent2-plugins.list
+  sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix.list
+  sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix-agent2-plugins.list
   mv /etc/apt/sources.list.d/zabbix-agent2-plugins.list /etc/apt/sources.list.d/zabbix-agent2-plugins.list-bak
 }
 
