@@ -6,15 +6,24 @@
 
 ### 支持操作系统
 1. **zabbix6.sh** 已支持 **centos 7(编译安装) / centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / ubuntu 24.04 / debian 11 / debian 12**
-2. **zabbix7.sh** 已支持 **centos 8(未严格测试) / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 22.04 / ubuntu 24.04 / debian 12**
-3. 待支持 **openeuler 20 / openeuler 22**
+2. **zabbix7.sh** 已支持 **centos 8(强烈不推荐) / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 22.04 / ubuntu 24.04 / debian 12**
+3. docker 部署已完成测试系统 **rocky linux 9 / ubuntu 24.04**
+4. 待支持 **openeuler 20 / openeuler 22**
 
 ### zabbix 7.0 食用方法
-1. centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 22.04 / ubuntu 24.04 / debian 12
+1. centos 8（强烈不推荐） / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 22.04 / ubuntu 24.04 / debian 12
 ```shell
 git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
 cd Quick-Installation-ZABBIX
 bash zabbix7.sh
+```
+
+### zabbix 7.0 docker 部署 食用方法
+1. rocky linux 9 / ubuntu 24.04
+```shell
+git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
+cd Quick-Installation-ZABBIX/docker
+bash zabbix7_docker.sh
 ```
 
 ### zabbix 6.0 食用方法
@@ -40,6 +49,9 @@ bash centos-7.sh
 <img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/1.jpg?raw=true" width="25%" height="25%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/2.jpg?raw=true" width="45%" height="45%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/3.png?raw=true" width="30%" height="30%">
 
 ## 更新日志
+
+### 2024-06-29更新
+1. 添加zabbix 7.0 docker 部署支持
 
 ### 2024-06-05更新
 1. 添加zabbix 7.0 安装脚本 **zabbix7.sh**，请注意，该脚本当前为**beta版本**
