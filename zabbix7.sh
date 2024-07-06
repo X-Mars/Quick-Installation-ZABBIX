@@ -19,7 +19,6 @@ fi
 
 install_zabbix_release_on_centos_or_rocky() {
   echo '为CentOS或Rocky Linux安装zabbix源...'
-  dnf install epel-release -y
   if [ "$VERSION_ID" == "9" ]; then
     curl -O https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/7.0/${ID}/${VERSION_ID}/x86_64/zabbix-release-7.0-2.el${VERSION_ID}.noarch.rpm
     rpm -ivh zabbix-release-7.0-2.el${VERSION_ID}.noarch.rpm
@@ -28,10 +27,17 @@ install_zabbix_release_on_centos_or_rocky() {
     rpm -ivh zabbix-release-7.0-1.el${VERSION_ID}.noarch.rpm
     dnf module switch-to php:8.0 -y
   fi
+  dnf module reset mariadb -y
   sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/yum.repos.d/zabbix.repo
   sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/yum.repos.d/zabbix-agent2-plugins.repo
   mv /etc/yum.repos.d/zabbix-agent2-plugins.repo /etc/yum.repos.d/zabbix-agent2-plugins.repo-bak
   sed -i '/^\[epel\]/a excludepkgs=zabbix*' /etc/yum.repos.d/epel.repo
+}
+
+config_epel(){
+  dnf install epel-release -y
+  sed -i 's|^#baseurl=https://download.example/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel*
+  sed -i 's|^metalink|#metalink|' /etc/yum.repos.d/epel*
 }
 
 config_rocky(){
@@ -48,7 +54,6 @@ config_rocky(){
       -i.bak \
       /etc/yum.repos.d/Rocky-*.repo
   fi
-  dnf module reset mariadb -y
 }
 
 config_firewalld_on_centos_or_rocky() {
@@ -193,11 +198,12 @@ if [ -f /etc/os-release ]; then
       # CentOS 或 Rocky Linux 的安装步骤
       VERSION_ID=$(echo "$VERSION_ID" | cut -d'.' -f1)
       if ( [ "$VERSION_ID" == "8" ] || [ "$VERSION_ID" == "9" ]); then
-          install_zabbix_release_on_centos_or_rocky
-          install_mariadb_release
           if [ "$ID" == "rocky" ]; then
               config_rocky
           fi
+          config_epel
+          install_zabbix_release_on_centos_or_rocky
+          install_mariadb_release
           dnf install zabbix-server-mysql zabbix-web-mysql zabbix-apache-conf zabbix-sql-scripts zabbix-selinux-policy zabbix-agent MariaDB-server MariaDB-client MariaDB-backup MariaDB-devel langpacks-zh_CN git -y
           systemctl enable mariadb --now
           if systemctl is-active mariadb; then
