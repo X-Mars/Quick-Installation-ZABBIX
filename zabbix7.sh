@@ -36,9 +36,18 @@ install_zabbix_release_on_centos_or_rocky() {
 
 config_rocky(){
   echo '为Rocky Linux配置阿里云源...'
-  for file in /etc/yum.repos.d/rocky-*.repo /etc/yum.repos.d/Rocky-*.repo; do
-    [ -e "$file" ] && cp "$file" "$file.bak" && sed -i -e 's|^mirrorlist=|#mirrorlist=|g' -e 's|^#baseurl=http://dl.rockylinux.org/\$contentdir|baseurl=https://mirrors.aliyun.com/rockylinux|g' "$file"
-  done
+  if [ "$VERSION_ID" == "9" ]; then
+    sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+      -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=http://mirrors.aliyun.com/rockylinux|g' \
+      -i.bak \
+      /etc/yum.repos.d/rocky*.repo
+    
+  elif [ "$VERSION_ID" == "8" ]; then
+    sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+      -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.aliyun.com/rockylinux|g' \
+      -i.bak \
+      /etc/yum.repos.d/Rocky-*.repo
+  fi
   dnf module reset mariadb -y
 }
 
