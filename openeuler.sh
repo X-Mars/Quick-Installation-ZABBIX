@@ -11,7 +11,7 @@ echo -e "\e[32m加入QQ群一起开车一起学习: \e[0m\e[33m523870446\e[0m"
 echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/\e[0m"
 echo -e "\e[32m跟作者学运维开发: \e[0m\e[33mhttps://space.bilibili.com/439068477\e[0m"
 echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX\e[0m"
-echo -e "\e[32m当前脚本介绍: \e[0m\e[33mInstall Zabbix 7.0 on Openeuler Linux 22.03 / 24。03 \e[0m"
+echo -e "\e[32m当前脚本介绍: \e[0m\e[33mInstall Zabbix 7.0 on Openeuler Linux 22.03 / 24.03 \e[0m"
 
 # 获取操作系统信息，下载对应版本zabbix源码包
 # 检查 /etc/os-release 文件是否存在
@@ -19,7 +19,7 @@ echo '检查操作系统版本...'
 if [ -e /etc/os-release ]; then
     source /etc/os-release
     openeuler_version=$(echo "$VERSION_ID" | cut -d'.' -f1)
-    if ( [ "$ID" == "centos" ] && [ "$openeuler_version" == "7" ] ) || ( [ "$ID" == "openEuler" ] && ( [ "$openeuler_version" == "22" ] || [ "$openeuler_version" == "24" ] ) ); then
+    if ( [ "$ID" == "openEuler" ] && ( [ "$openeuler_version" == "22" ] || [ "$openeuler_version" == "24" ] ) ); then
         # 下载zabbix 源码 包
         echo "操作系统版本为 Openeuler Linux $openeuler_version"
         curl -O https://cdn.zabbix.com/zabbix/sources/stable/7.0/zabbix-${zabbix_version}.tar.gz
@@ -32,6 +32,8 @@ else
     exit 1
 fi
 
+CPU_NUM=$(cat /proc/cpuinfo | grep processor | wc -l)
+
 echo '更换阿里云源'
 sed -e 's|^metalink=|#metalink=|g' -e 's|^baseurl=http://repo.openeuler.org/|baseurl=https://mirrors.aliyun.com/openeuler/|g' -e 's|^gpgkey=http://repo.openeuler.org/|gpgkey=https://mirrors.aliyun.com/openeuler/|g' -i.bak /etc/yum.repos.d/openEuler.repo
 sleep 3
@@ -42,32 +44,35 @@ useradd --system -g zabbix -d /usr/lib/zabbix -s /sbin/nologin -c "Zabbix Monito
 mkdir /var/log/zabbix
 chown zabbix.zabbix -R /var/log/zabbix
 
-sudo dnf install make pcre-devel pcre libevent libevent-devel openssl openssl-devel pv gcc libxml2 libxml2-devel curl curl-devel java-devel httpd wget php php-common php-cli php-fpm php-common php-mysqlnd php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath php-xmlwriter php-xmlreader php-ldap gcc mysql-server mysql-devel httpd tar libxml2-devel libxml2 libxml2-devel -y
+sudo dnf install git make pcre-devel pcre libevent libevent-devel openssl openssl-devel pv gcc libxml2 libxml2-devel curl curl-devel java-devel httpd wget php php-common php-cli php-fpm php-common php-mysqlnd php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath php-xmlwriter php-xmlreader php-ldap gcc mysql-server mysql-devel httpd tar libxml2-devel libxml2 libxml2-devel -y
 
 # 安装数据库
 sudo systemctl enable mysqld --now
 
 # 安装snmp
 echo '安装snmp...'
-curl -L -o net-snmp-5.9.4.tar.gz https://sourceforge.net/projects/net-snmp/files/net-snmp/5.9.4/net-snmp-5.9.4.tar.gz/download
-tar zxvf net-snmp-5.9.4.tar.gz 
-cd net-snmp-5.9.4
-./configure --with-default-snmp-version="2"  --with-systemd --with-sys-contact="who@where" --with-sys-location="location" --with-logfile="/var/log/snmpd.log" --with-persistent-directory="/var/net-snmp"
+if [ "$openeuler_version" == "22" ]; then
+    if [ ! -f net-snmp-5.9.4.tar.gz ]; then
+        curl -L -o net-snmp-5.9.4.tar.gz https://sourceforge.net/projects/net-snmp/files/net-snmp/5.9.4/net-snmp-5.9.4.tar.gz/download
+    fi
 
-CPU_NUM=$(cat /proc/cpuinfo | grep processor | wc -l)
-if [ $CPU_NUM -gt 1 ];then
-    make -j$CPU_NUM
+        tar zxvf net-snmp-5.9.4.tar.gz 
+        cd net-snmp-5.9.4
+        ./configure --with-default-snmp-version="2"  --with-systemd --with-sys-contact="who@where" --with-sys-location="location" --with-logfile="/var/log/snmpd.log" --with-persistent-directory="/var/net-snmp"
+
+        make -j$CPU_NUM
+
+        make install
+
+        echo "/usr/local/lib" >> /etc/ld.so.conf
+        cat /etc/ld.so.conf
+        sudo ldconfig
+        ldconfig -p | grep /usr/local/lib
+
+        cd ..
 else
-    make
+    sudo dnf install net-snmp net-snmp-utils net-snmp-libs net-snmp-devel -y
 fi
-make install
-
-echo "/usr/local/lib" >> /etc/ld.so.conf
-cat /etc/ld.so.conf
-sudo ldconfig
-ldconfig -p | grep /usr/local/lib
-
-cd ..
 
 echo '初始化数据库...'
 sudo echo "create database zabbix character set utf8mb4 collate utf8mb4_bin;" | mysql -uroot
@@ -82,12 +87,7 @@ cd $zabbixdir/zabbix-${zabbix_version}
 echo `pwd`
 ./configure --enable-server --enable-agent --with-mysql --with-net-snmp --with-libcurl --with-libxml2 --enable-java
 
-CPU_NUM=$(cat /proc/cpuinfo | grep processor | wc -l)
-if [ $CPU_NUM -gt 1 ];then
-    make -j$CPU_NUM
-else
-    make
-fi
+make -j$CPU_NUM
 
 make install
 
