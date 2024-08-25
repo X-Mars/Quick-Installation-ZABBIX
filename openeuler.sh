@@ -1,7 +1,7 @@
 # Path: openeuler.sh
 #!/bin/bash
 # Author: 火星小刘 / 中国青岛
-# Install Zabbix 7.0 on Openeuler Linux 22.03
+# Install Zabbix 7.0 on Openeuler Linux 22.03 / 24.03
 
 zabbix_version=7.0.3
 zabbixdir=`pwd`
@@ -11,7 +11,7 @@ echo -e "\e[32m加入QQ群一起开车一起学习: \e[0m\e[33m523870446\e[0m"
 echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/\e[0m"
 echo -e "\e[32m跟作者学运维开发: \e[0m\e[33mhttps://space.bilibili.com/439068477\e[0m"
 echo -e "\e[32m本项目地址: \e[0m\e[33mhttps://github.com/X-Mars/Quick-Installation-ZABBIX\e[0m"
-echo -e "\e[32m当前脚本介绍: \e[0m\e[33mInstall Zabbix 7.0 on Openeuler Linux 22.03\e[0m"
+echo -e "\e[32m当前脚本介绍: \e[0m\e[33mInstall Zabbix 7.0 on Openeuler Linux 22.03 / 24。03 \e[0m"
 
 # 获取操作系统信息，下载对应版本zabbix源码包
 # 检查 /etc/os-release 文件是否存在
@@ -19,7 +19,7 @@ echo '检查操作系统版本...'
 if [ -e /etc/os-release ]; then
     source /etc/os-release
     openeuler_version=$(echo "$VERSION_ID" | cut -d'.' -f1)
-    if ( [ "$ID" == "centos" ] && [ "$openeuler_version" == "7" ] ) || ( [ "$ID" == "openEuler" ] && [ "$openeuler_version" == "22" ] ); then
+    if ( [ "$ID" == "centos" ] && [ "$openeuler_version" == "7" ] ) || ( [ "$ID" == "openEuler" ] && ( [ "$openeuler_version" == "22" ] || [ "$openeuler_version" == "24" ] ) ); then
         # 下载zabbix 源码 包
         echo "操作系统版本为 Openeuler Linux $openeuler_version"
         curl -O https://cdn.zabbix.com/zabbix/sources/stable/7.0/zabbix-${zabbix_version}.tar.gz
@@ -31,6 +31,10 @@ else
     echo "无法找到 /etc/os-release 文件，脚本无法运行。"
     exit 1
 fi
+
+echo '更换阿里云源'
+sed -e 's|^metalink=|#metalink=|g' -e 's|^baseurl=http://repo.openeuler.org/|baseurl=https://mirrors.aliyun.com/openeuler/|g' -e 's|^gpgkey=http://repo.openeuler.org/|gpgkey=https://mirrors.aliyun.com/openeuler/|g' -i.bak /etc/yum.repos.d/openEuler.repo
+sleep 3
 
 echo '添加zabbix用户'
 groupadd --system zabbix

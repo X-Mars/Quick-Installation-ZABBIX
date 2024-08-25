@@ -18,8 +18,7 @@ cd Quick-Installation-ZABBIX
 bash zabbix7.sh
 ```
 
-### openeuler 22 食用方法
-1. openeuler 22
+### openeuler 22 / 24 安装zabbix 7.0 食用方法
 ```shell
 git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
 cd Quick-Installation-ZABBIX
