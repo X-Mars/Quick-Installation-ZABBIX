@@ -18,6 +18,14 @@ cd Quick-Installation-ZABBIX
 bash zabbix7.sh
 ```
 
+### openeuler 22 食用方法
+1. openeuler 22
+```shell
+git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
+cd Quick-Installation-ZABBIX
+bash openeuler.sh
+```
+
 ### zabbix 7.0 docker 部署 食用方法
 1. rocky linux 9 / ubuntu 24.04
 ```shell
@@ -49,6 +57,9 @@ bash centos-7.sh
 <img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/1.jpg?raw=true" width="25%" height="25%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/2.jpg?raw=true" width="45%" height="45%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/3.png?raw=true" width="30%" height="30%">
 
 ## 更新日志
+
+### 2024-08-25更新
+1. 添加openeuler 22 支持
 
 ### 2024-06-29更新
 1. 添加zabbix 7.0 docker 部署支持
