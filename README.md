@@ -8,7 +8,7 @@
 1. **zabbix6.sh** 已支持 **centos 7(编译安装) / centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / ubuntu 24.04 / debian 11 / debian 12**
 2. **zabbix7.sh** 已支持 **centos 8(强烈不推荐) / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 22.04 / ubuntu 24.04 / debian 12**
 3. docker 部署已完成测试系统 **rocky linux 9 / ubuntu 24.04**
-4. 待支持 **openeuler 20 / openeuler 22**
+4. **openeuler.sh** 已支持 **openeuler 22.03 / openeuler 24.03**
 
 ### zabbix 7.0 食用方法
 1. centos 8（强烈不推荐） / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 22.04 / ubuntu 24.04 / debian 12
