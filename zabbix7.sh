@@ -32,13 +32,25 @@ install_zabbix_release_on_centos_or_rocky() {
   sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/yum.repos.d/zabbix.repo
   sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/yum.repos.d/zabbix-agent2-plugins.repo
   mv /etc/yum.repos.d/zabbix-agent2-plugins.repo /etc/yum.repos.d/zabbix-agent2-plugins.repo-bak
-  sed -i '/^\[epel\]/a excludepkgs=zabbix*' /etc/yum.repos.d/epel.repo
+}
+
+install_zabbix_release_on_alma() {
+  echo '为AlmaLinux安装zabbix源...'
+  if( [ "$VERSION_ID" == "8" ] || [ "$VERSION_ID" == "9" ]); then
+    curl -O https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/7.0/alma/${VERSION_ID}/x86_64/zabbix-release-latest.el${VERSION_ID}.noarch.rpm
+    rpm -ivh zabbix-release-latest.el${VERSION_ID}.noarch.rpm
+  fi
+  dnf module reset mariadb -y
+  sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/yum.repos.d/zabbix.repo
+  sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/yum.repos.d/zabbix-agent2-plugins.repo
+  mv /etc/yum.repos.d/zabbix-agent2-plugins.repo /etc/yum.repos.d/zabbix-agent2-plugins.repo-bak
 }
 
 config_epel(){
   dnf install epel-release -y
   sed -i 's|^#baseurl=https://download.example/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel*
   sed -i 's|^metalink|#metalink|' /etc/yum.repos.d/epel*
+  sed -i '/^\[epel\]/a excludepkgs=zabbix*' /etc/yum.repos.d/epel.repo
 }
 
 config_rocky(){
@@ -54,6 +66,16 @@ config_rocky(){
       -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.aliyun.com/rockylinux|g' \
       -i.bak \
       /etc/yum.repos.d/Rocky-*.repo
+  fi
+}
+
+config_alma(){
+  echo '为AlmaLinux配置阿里云源...'
+  if ( [ "$VERSION_ID" == "8" ] || [ "$VERSION_ID" == "9" ]); then
+    sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+      -e 's|^# baseurl=https://repo.almalinux.org|baseurl=https://mirrors.aliyun.com|g' \
+      -i.bak \
+      /etc/yum.repos.d/almalinux*.repo
   fi
 }
 
@@ -205,6 +227,35 @@ if [ -f /etc/os-release ]; then
           fi
           config_epel
           install_zabbix_release_on_centos_or_rocky
+          install_mariadb_release
+          dnf install zabbix-server-mysql zabbix-web-mysql zabbix-apache-conf zabbix-sql-scripts zabbix-selinux-policy zabbix-agent MariaDB-server MariaDB-client MariaDB-backup MariaDB-devel langpacks-zh_CN git -y
+          systemctl enable mariadb --now
+          if systemctl is-active mariadb; then
+            echo "MariaDB 安装成功。"
+          else
+            echo -e "\e[91mMariaDB 安装失败,怀疑是网络问题（你懂得）。请使用以下命令安装 MariaDB 后重试: \e[0m"
+            echo -e "\e[91m安装 MariaDB 源: curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash -s -- --mariadb-server-version=11.0\e[0m"
+            echo -e "\e[91m安装 MariaDB: dnf install MariaDB-server MariaDB-client MariaDB-backup MariaDB-devel -y\e[0m"
+            echo -e "\e[91m启动 MariaDB: systemctl enable mariadb --now\e[0m"
+            exit 1
+          fi
+          change_font_to_chinese
+          init_database
+          config_firewalld_on_centos_or_rocky
+          centos_or_rocky_finsh
+          add_wechat_dingtalk_feishu_scripts
+      else
+          echo "不支持的操作系统版本,脚本停止运行。"
+          exit 1
+      fi
+      ;;
+    almalinux)
+      # AlmaLinux 的安装步骤
+      VERSION_ID=$(echo "$VERSION_ID" | cut -d'.' -f1)
+      if ( [ "$VERSION_ID" == "8" ] || [ "$VERSION_ID" == "9" ]); then
+          config_alma
+          config_epel
+          install_zabbix_release_on_alma
           install_mariadb_release
           dnf install zabbix-server-mysql zabbix-web-mysql zabbix-apache-conf zabbix-sql-scripts zabbix-selinux-policy zabbix-agent MariaDB-server MariaDB-client MariaDB-backup MariaDB-devel langpacks-zh_CN git -y
           systemctl enable mariadb --now
