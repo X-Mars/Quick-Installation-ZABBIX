@@ -58,7 +58,7 @@ bash centos-7.sh
 ## 更新日志
 
 ### 2024-08-25更新
-1. 添加openeuler 22 支持
+1. 添加openeuler 22 / 24 支持
 
 ### 2024-06-29更新
 1. 添加zabbix 7.0 docker 部署支持
