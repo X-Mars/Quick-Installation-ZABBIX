@@ -61,7 +61,7 @@ bash centos-7.sh
 1. 添加almaLinux 8 / 9 支持
 
 ### 2024-08-25更新
-1. 添加openeuler 22 支持
+1. 添加openeuler 22 / 24 支持
 
 ### 2024-06-29更新
 1. 添加zabbix 7.0 docker 部署支持
