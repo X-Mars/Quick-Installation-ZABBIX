@@ -42,7 +42,7 @@ echo '添加zabbix用户'
 groupadd --system zabbix
 useradd --system -g zabbix -d /usr/lib/zabbix -s /sbin/nologin -c "Zabbix Monitoring System" zabbix
 mkdir /var/log/zabbix
-chown zabbix.zabbix -R /var/log/zabbix
+chown zabbix:zabbix -R /var/log/zabbix
 
 sudo dnf install git make pcre-devel pcre libevent libevent-devel openssl openssl-devel pv gcc libxml2 libxml2-devel curl curl-devel java-devel httpd wget php php-common php-cli php-fpm php-common php-mysqlnd php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath php-xmlwriter php-xmlreader php-ldap gcc mysql-server mysql-devel httpd tar libxml2-devel libxml2 libxml2-devel -y
 
