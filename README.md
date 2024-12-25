@@ -9,6 +9,7 @@
 2. **zabbix7.sh** 已支持 **centos 8(强烈不推荐) / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 22.04 / ubuntu 24.04 / debian 12 / almaLinux 8 / 9**
 3. docker 部署已完成测试系统 **rocky linux 9 / ubuntu 24.04**
 4. **openeuler.sh** 已支持 **openeuler 22.03 / openeuler 24.03**
+5. 加入QQ群获取**centos7安装zabbix7脚本**
 
 ### zabbix 7.0 食用方法
 1. centos 8（强烈不推荐） / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 22.04 / ubuntu 24.04 / debian 12
