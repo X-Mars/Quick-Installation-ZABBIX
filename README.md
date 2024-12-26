@@ -11,6 +11,10 @@
 4. **openeuler.sh** 已支持 **openeuler 22.03 / openeuler 24.03**
 5. 加入QQ群获取**centos7安装zabbix7脚本**
 
+### 交流群
+
+<img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/1.jpg?raw=true" width="25%" height="25%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/2.jpg?raw=true" width="45%" height="45%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/3.png?raw=true" width="30%" height="30%">
+
 ### zabbix 7.0 食用方法
 1. centos 8（强烈不推荐） / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 22.04 / ubuntu 24.04 / debian 12
 ```shell
@@ -51,10 +55,6 @@ bash centos-7.sh
 ### 注意事项
 1. debian需要手动执行 **dpkg-reconfigure locales** 安装中文语言包
 2. centos7系统，请使用 **zabbix6/centos-7.sh**
-
-### 交流群
-
-<img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/1.jpg?raw=true" width="25%" height="25%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/2.jpg?raw=true" width="45%" height="45%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/3.png?raw=true" width="30%" height="30%">
 
 ## 更新日志
 
