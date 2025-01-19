@@ -3,7 +3,7 @@
 ## zabbix安装脚本
 ### 脚本作者:火星小刘 
 ### 可配合本人微信报警脚本哦：https://github.com/X-Mars/Zabbix-Alert-WeChat
-[<img src="https://api.gitsponsors.com/api/badge/img?id=60772050" height="20">](https://api.gitsponsors.com/api/badge/link?p=nf9DvjdSxFsCOxspQTl1UTaGMAOFKqCMY30YsqkLgEw2J8+UOap9HSCsFsZgqrGgM+9rapEfF137SNeMbxHnr3EJNVhkFit73Y2V31K2N26AN7vt471KSZ29/iFjDMGt2xgrHhiz0wWlQlF1ysPhhQ==)
+
 
 ### 支持操作系统
 1. **zabbix6.sh** 已支持 **centos 7(编译安装) / centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / ubuntu 24.04 / debian 11 / debian 12**
