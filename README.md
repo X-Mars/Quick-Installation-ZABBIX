@@ -3,6 +3,7 @@
 ## zabbix安装脚本
 ### 脚本作者:火星小刘 
 ### 可配合本人微信报警脚本哦：https://github.com/X-Mars/Zabbix-Alert-WeChat
+[<img src="https://api.gitsponsors.com/api/badge/img?id=60772050" height="20">](https://api.gitsponsors.com/api/badge/link?p=nf9DvjdSxFsCOxspQTl1UUmNu06+2jBEXfjFdZbG0roZiDrQDpiaRI+xWUW9DQjD)
 
 ### 支持操作系统
 1. **zabbix6.sh** 已支持 **centos 7(编译安装) / centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / ubuntu 24.04 / debian 11 / debian 12**
@@ -10,6 +11,7 @@
 3. docker 部署已完成测试系统 **rocky linux 9 / ubuntu 24.04**
 4. **openeuler.sh** 已支持 **openeuler 22.03 / openeuler 24.03**
 5. 加入QQ群获取**centos7安装zabbix7脚本**
+
 
 ### 交流群
 
