@@ -58,6 +58,9 @@ bash centos-7.sh
 1. debian需要手动执行 **dpkg-reconfigure locales** 安装中文语言包
 2. centos7系统，请使用 **zabbix6/centos-7.sh**
 
+### 访问人数
+<img align="left" src = "https://profile-counter.glitch.me/Quick-Installation-ZABBIX/count.svg" alt="Loading">
+    
 ## 更新日志
 
 ### 2024-08-27更新
