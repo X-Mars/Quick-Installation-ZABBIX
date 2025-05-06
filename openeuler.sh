@@ -3,7 +3,7 @@
 # Author: 火星小刘 / 中国青岛
 # Install Zabbix 7.0 on Openeuler Linux 22.03 / 24.03
 
-zabbix_version=7.0.4
+zabbix_version=7.0.12
 zabbixdir=`pwd`
 
 echo -e "\e[32mAuthor: \e[0m\e[33m火星小刘 / 中国青岛\e[0m"
