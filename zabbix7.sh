@@ -13,9 +13,18 @@ read -r set_custom_password
 if [ "$set_custom_password" = "y" ] || [ "$set_custom_password" = "Y" ]; then
     while true; do
         echo -e "\e[32m请输入新的密码: \e[0m"
-        read -r custom_password
+        read -rs custom_password
+        echo  # 输入完成后换行
+        
+        # 二次确认密码
+        echo -e "\e[32m请再次输入密码: \e[0m"
+        read -rs confirm_password
+        echo  # 输入完成后换行
+        
         if [ -z "$custom_password" ]; then
             echo -e "\e[31m密码不能为空，请重新输入\e[0m"
+        elif [ "$custom_password" != "$confirm_password" ]; then
+            echo -e "\e[31m两次输入的密码不一致，请重新输入\e[0m"
         else
             DEFAULT_PASSWORD=$custom_password
             echo -e "\e[32m密码已设置为: $DEFAULT_PASSWORD\e[0m"
