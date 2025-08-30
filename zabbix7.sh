@@ -125,7 +125,7 @@ install_zabbix_release_on_ubuntu_or_debain() {
 
 install_mariadb_release() {
   echo '安装mariadb源...'
-  curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash -s -- --mariadb-server-version=11.0
+  curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version=11.4
 }
 
 init_database() {
