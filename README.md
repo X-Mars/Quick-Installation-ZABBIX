@@ -63,8 +63,9 @@ bash centos-7.sh
     
 ## 更新日志
 
-### 2024-08-30更新
+### 2025-08-30更新
 1. 添加rocky linux 10 / centos 10 / almaLinux 10 支持
+2. root默认密码设置为**huoxingxiaoliu**
 
 ### 2024-08-27更新
 1. 添加almaLinux 8 / 9 支持
