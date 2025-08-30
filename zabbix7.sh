@@ -20,13 +20,12 @@ fi
 
 install_zabbix_release_on_centos_or_rocky() {
   echo '为CentOS或Rocky Linux安装zabbix源...'
-  if [ "$VERSION_ID" == "9" ]; then
-    curl -O https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/7.0/${ID}/${VERSION_ID}/x86_64/zabbix-release-7.0-2.el${VERSION_ID}.noarch.rpm
-    rpm -ivh zabbix-release-7.0-2.el${VERSION_ID}.noarch.rpm
-  elif [ "$VERSION_ID" == "8" ]; then
-    curl -O https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/7.0/${ID}/${VERSION_ID}/x86_64/zabbix-release-7.0-1.el${VERSION_ID}.noarch.rpm
-    rpm -ivh zabbix-release-7.0-1.el${VERSION_ID}.noarch.rpm
-    dnf module switch-to php:8.0 -y
+  if( [ "$VERSION_ID" == "8" ] || [ "$VERSION_ID" == "9" ] || [ "$VERSION_ID" == "10" ]); then
+    curl -O https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/7.0/${ID}/${VERSION_ID}/x86_64/zabbix-release-latest.el${VERSION_ID}.noarch.rpm
+    rpm -ivh zabbix-release-latest.el${VERSION_ID}.noarch.rpm
+    if [ "$VERSION_ID" == "8" ]; then
+      dnf module switch-to php:8.0 -y
+    fi
   fi
   dnf module reset mariadb -y
   sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/yum.repos.d/zabbix.repo
@@ -36,7 +35,7 @@ install_zabbix_release_on_centos_or_rocky() {
 
 install_zabbix_release_on_alma() {
   echo '为AlmaLinux安装zabbix源...'
-  if( [ "$VERSION_ID" == "8" ] || [ "$VERSION_ID" == "9" ]); then
+  if( [ "$VERSION_ID" == "8" ] || [ "$VERSION_ID" == "9" ] || [ "$VERSION_ID" == "10" ]); then
     curl -O https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/7.0/alma/${VERSION_ID}/x86_64/zabbix-release-latest.el${VERSION_ID}.noarch.rpm
     rpm -ivh zabbix-release-latest.el${VERSION_ID}.noarch.rpm
   fi
@@ -55,9 +54,9 @@ config_epel(){
 
 config_rocky(){
   echo '为Rocky Linux配置阿里云源...'
-  if [ "$VERSION_ID" == "9" ]; then
+  if ( [ "$VERSION_ID" == "9" ] || [ "$VERSION_ID" == "10" ]); then
     sed -e 's|^mirrorlist=|#mirrorlist=|g' \
-      -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=http://mirrors.aliyun.com/rockylinux|g' \
+      -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.aliyun.com/rockylinux|g' \
       -i.bak \
       /etc/yum.repos.d/rocky*.repo
     
@@ -71,7 +70,7 @@ config_rocky(){
 
 config_alma(){
   echo '为AlmaLinux配置阿里云源...'
-  if ( [ "$VERSION_ID" == "8" ] || [ "$VERSION_ID" == "9" ]); then
+  if ( [ "$VERSION_ID" == "8" ] || [ "$VERSION_ID" == "9" ] || [ "$VERSION_ID" == "10" ]); then
     sed -e 's|^mirrorlist=|#mirrorlist=|g' \
       -e 's|^# baseurl=https://repo.almalinux.org|baseurl=https://mirrors.aliyun.com|g' \
       -i.bak \
@@ -115,8 +114,8 @@ config_ufw_on_ubuntu_or_debian() {
 install_zabbix_release_on_ubuntu_or_debain() {
   echo '为Ubuntu或Debian安装zabbix源...'
   apt install curl -y
-  curl -O https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/7.0/${ID}/pool/main/z/zabbix-release/zabbix-release_7.0-1+${ID}${VERSION_ID}_all.deb
-  dpkg -i "zabbix-release_7.0-1+${ID}${VERSION_ID}_all.deb"
+  curl -O https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/7.0/${ID}/pool/main/z/zabbix-release/zabbix-release_latest+${ID}${VERSION_ID}_all.deb
+  dpkg -i "zabbix-release_latest+${ID}${VERSION_ID}_all.deb"
 
   sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix.list
   sed -i 's/repo\.zabbix\.com/mirrors\.aliyun\.com\/zabbix/' /etc/apt/sources.list.d/zabbix-agent2-plugins.list
@@ -125,7 +124,20 @@ install_zabbix_release_on_ubuntu_or_debain() {
 
 install_mariadb_release() {
   echo '安装mariadb源...'
-  curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version=11.4
+  # 判断当前文件夹，是否存在mariadb_repo_setup，如果存在直接运行
+  if [ -f "./mariadb_repo_setup" ]; then
+    echo "mariadb_repo_setup 已存在，直接运行..."
+    bash ./mariadb_repo_setup --mariadb-server-version=11.4
+    return
+  else
+    echo "mariadb_repo_setup 不存在，下载安装..."
+    curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version=11.4
+  fi
+}
+
+config_mariadb_release_on_centos_or_rocky() {
+  echo '为CentOS或Rocky Linux配置mariadb 阿里云源...'
+  sudo sed -i.bak 's|^baseurl.*$|baseurl = https://mirrors.aliyun.com/mariadb/yum/11.4/rhel/$releasever/$basearch|' /etc/yum.repos.d/mariadb.repo
 }
 
 init_database() {
@@ -221,20 +233,21 @@ if [ -f /etc/os-release ]; then
     centos|rocky)
       # CentOS 或 Rocky Linux 的安装步骤
       VERSION_ID=$(echo "$VERSION_ID" | cut -d'.' -f1)
-      if ( [ "$VERSION_ID" == "8" ] || [ "$VERSION_ID" == "9" ]); then
+      if ( [ "$VERSION_ID" == "8" ] || [ "$VERSION_ID" == "9" ] || [ "$VERSION_ID" == "10" ]); then
           if [ "$ID" == "rocky" ]; then
               config_rocky
           fi
           config_epel
           install_zabbix_release_on_centos_or_rocky
           install_mariadb_release
+          config_mariadb_release_on_centos_or_rocky
           dnf install zabbix-server-mysql zabbix-web-mysql zabbix-apache-conf zabbix-sql-scripts zabbix-selinux-policy zabbix-agent MariaDB-server MariaDB-client MariaDB-backup MariaDB-devel langpacks-zh_CN git -y
           systemctl enable mariadb --now
           if systemctl is-active mariadb; then
             echo "MariaDB 安装成功。"
           else
             echo -e "\e[91mMariaDB 安装失败,怀疑是网络问题（你懂得）。请使用以下命令安装 MariaDB 后重试: \e[0m"
-            echo -e "\e[91m安装 MariaDB 源: curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash -s -- --mariadb-server-version=11.0\e[0m"
+            echo -e "\e[91m安装 MariaDB 源: curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | bash -s -- --mariadb-server-version=11.4\e[0m"
             echo -e "\e[91m安装 MariaDB: dnf install MariaDB-server MariaDB-client MariaDB-backup MariaDB-devel -y\e[0m"
             echo -e "\e[91m启动 MariaDB: systemctl enable mariadb --now\e[0m"
             exit 1
@@ -252,7 +265,7 @@ if [ -f /etc/os-release ]; then
     almalinux)
       # AlmaLinux 的安装步骤
       VERSION_ID=$(echo "$VERSION_ID" | cut -d'.' -f1)
-      if ( [ "$VERSION_ID" == "8" ] || [ "$VERSION_ID" == "9" ]); then
+      if ( [ "$VERSION_ID" == "8" ] || [ "$VERSION_ID" == "9" ] || [ "$VERSION_ID" == "10" ]); then
           config_alma
           config_epel
           install_zabbix_release_on_alma
@@ -263,7 +276,7 @@ if [ -f /etc/os-release ]; then
             echo "MariaDB 安装成功。"
           else
             echo -e "\e[91mMariaDB 安装失败,怀疑是网络问题（你懂得）。请使用以下命令安装 MariaDB 后重试: \e[0m"
-            echo -e "\e[91m安装 MariaDB 源: curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash -s -- --mariadb-server-version=11.0\e[0m"
+            echo -e "\e[91m安装 MariaDB 源: curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | bash -s -- --mariadb-server-version=11.4\e[0m"
             echo -e "\e[91m安装 MariaDB: dnf install MariaDB-server MariaDB-client MariaDB-backup MariaDB-devel -y\e[0m"
             echo -e "\e[91m启动 MariaDB: systemctl enable mariadb --now\e[0m"
             exit 1
@@ -295,7 +308,7 @@ if [ -f /etc/os-release ]; then
             echo "MariaDB 安装成功。"
           else
             echo -e "\e[91mMariaDB 安装失败,怀疑是网络问题（你懂得）。请使用以下命令安装 MariaDB 后重试: \e[0m"
-            echo -e "\e[91m安装 MariaDB 源: curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash -s -- --mariadb-server-version=11.0\e[0m"
+            echo -e "\e[91m安装 MariaDB 源: curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | bash -s -- --mariadb-server-version=11.4\e[0m"
             echo -e "\e[91m安装 MariaDB: apt install mariadb-server mariadb-client -y\e[0m"
             echo -e "\e[91m启动 MariaDB: systemctl enable mariadb --now\e[0m"
             exit 1
