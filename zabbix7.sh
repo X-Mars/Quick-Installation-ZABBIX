@@ -2,6 +2,30 @@
 # Author: 火星小刘 / 中国青岛
 # Install Zabbix 7 on CentOS, Rocky Linux, Debian, or Ubuntu
 
+# 设置默认密码变量
+DEFAULT_PASSWORD="huoxingxiaoliu"
+
+# 提示用户设置密码
+echo -e "\e[32m是否要设置自定义的数据库密码？默认密码为：$DEFAULT_PASSWORD\e[0m"
+echo -e "\e[32m请选择 (y/n): \e[0m"
+read -r set_custom_password
+
+if [ "$set_custom_password" = "y" ] || [ "$set_custom_password" = "Y" ]; then
+    while true; do
+        echo -e "\e[32m请输入新的密码: \e[0m"
+        read -r custom_password
+        if [ -z "$custom_password" ]; then
+            echo -e "\e[31m密码不能为空，请重新输入\e[0m"
+        else
+            DEFAULT_PASSWORD=$custom_password
+            echo -e "\e[32m密码已设置为: $DEFAULT_PASSWORD\e[0m"
+            break
+        fi
+    done
+else
+    echo -e "\e[32m将使用默认密码: $DEFAULT_PASSWORD\e[0m"
+fi
+
 echo -e "\e[32mAuthor: \e[0m\e[33m火星小刘 / 中国青岛\e[0m"
 echo -e "\e[32m加入QQ群一起开车一起学习: \e[0m\e[33m523870446\e[0m"
 echo -e "\e[32m作者github: \e[0m\e[33mhttps://github.com/X-Mars/\e[0m"
@@ -142,15 +166,19 @@ config_mariadb_release_on_centos_or_rocky() {
 
 init_database() {
   echo '初始化数据库...'
-  echo "create database zabbix character set utf8mb4 collate utf8mb4_bin;" | mariadb -uroot
-  echo "create user zabbix@localhost identified by 'huoxingxiaoliu';" | mariadb -uroot
-  echo "grant all privileges on zabbix.* to zabbix@localhost;" | mariadb -uroot
-  echo "set global log_bin_trust_function_creators = 1;" | mariadb -uroot
+  echo "设置数据库root和zabbix用户密码..."
+  echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DEFAULT_PASSWORD';" | mariadb -uroot
+  
+  # 使用新设置的密码执行后续操作
+  echo "create database zabbix character set utf8mb4 collate utf8mb4_bin;" | mariadb -uroot -p$DEFAULT_PASSWORD
+  echo "create user zabbix@localhost identified by '$DEFAULT_PASSWORD';" | mariadb -uroot -p$DEFAULT_PASSWORD
+  echo "grant all privileges on zabbix.* to zabbix@localhost;" | mariadb -uroot -p$DEFAULT_PASSWORD
+  echo "set global log_bin_trust_function_creators = 1;" | mariadb -uroot -p$DEFAULT_PASSWORD
 
   # 导入初始化数据
-  zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mariadb --default-character-set=utf8mb4 -uzabbix -phuoxingxiaoliu zabbix
-  sed -i 's/# DBPassword=/DBPassword=huoxingxiaoliu/g' /etc/zabbix/zabbix_server.conf
-  echo "set global log_bin_trust_function_creators = 0;" | mariadb -uroot
+  zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mariadb --default-character-set=utf8mb4 -uzabbix -p$DEFAULT_PASSWORD zabbix
+  sed -i "s/# DBPassword=/DBPassword=$DEFAULT_PASSWORD/g" /etc/zabbix/zabbix_server.conf
+  echo "set global log_bin_trust_function_creators = 0;" | mariadb -uroot -p$DEFAULT_PASSWORD
 }
 
 centos_or_rocky_finsh() {
@@ -191,7 +219,7 @@ notification() {
   echo -e "\e[32m当前脚本介绍: \e[0m\e[33mZabbix 7 安装脚本\e[0m"
   echo -e "\e[32m支持的操作系统: \e[0m\e[33mcentos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 22.04 / ubuntu 24.04 / debian 12\e[0m"
 
-  echo -e "\n\e[31m数据库root用户默认密码为空,zabbix用户默认密码 huoxingxiaoliu\e[0m"
+  echo -e "\n\e[31m数据库root用户和zabbix用户默认密码均为$DEFAULT_PASSWORD\e[0m"
 
   # 获取ip
   if command -v ip &> /dev/null; then
