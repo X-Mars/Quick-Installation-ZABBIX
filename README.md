@@ -1,21 +1,31 @@
 # Quick-Installation-ZABBIX
+
+[English](README_en.md) | 简体中文
+
 # https://www.bilibili.com/video/BV1Qu411z7i1/ 可以点击此链接，查看zabbix 6.0 最新版本视频教程
 ## zabbix安装脚本
 ### 脚本作者:火星小刘 
 ### 可配合本人微信报警脚本哦：https://github.com/X-Mars/Zabbix-Alert-WeChat
 
-
 ### 支持操作系统
 1. **zabbix6.sh** 已支持 **centos 7(编译安装) / centos 8 / centos 9 / rocky linux 8 / rocky linux 9 / ubuntu 20.04 / ubuntu 22.04 / ubuntu 24.04 / debian 11 / debian 12**
 2. **zabbix7.sh** 已支持 **centos 8(强烈不推荐) / centos 9 / centos 10 / rocky linux 8 / rocky linux 9 / rocky linux 10 / ubuntu 22.04 / ubuntu 24.04 / debian 12 / almaLinux 8 / almaLinux 9 / almaLinux 10**
-3. docker 部署已完成测试系统 **rocky linux 9 / ubuntu 24.04**
-4. **openeuler.sh** 已支持 **openeuler 22.03 / openeuler 24.03**
-5. 加入QQ群获取**centos7安装zabbix7脚本**
-
+3. **zabbix7.4.sh** 已支持 **centos 8(强烈不推荐) / centos 9 / centos 10 / rocky linux 8 / rocky linux 9 / rocky linux 10 / ubuntu 22.04 / ubuntu 24.04 / debian 12 / almaLinux 8 / almaLinux 9 / almaLinux 10**
+4. docker 部署已完成测试系统 **rocky linux 9 / ubuntu 24.04**
+5. **openeuler.sh** 已支持 **openeuler 22.03 / openeuler 24.03**
+6. 加入QQ群获取**centos7安装zabbix7脚本**
 
 ### 交流群
 
 <img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/1.jpg?raw=true" width="25%" height="25%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/2.jpg?raw=true" width="45%" height="45%"><img src="https://github.com/X-Mars/Quick-Installation-ZABBIX/blob/master/images/3.png?raw=true" width="30%" height="30%">
+
+### zabbix 7.4 食用方法
+1. centos 8（强烈不推荐） / centos 9 / centos 10 / rocky linux 8 / rocky linux 9 / rocky linux 10 / ubuntu 22.04 / ubuntu 24.04 / debian 12 / almaLinux 8 / almaLinux 9 / almaLinux 10
+```shell
+git clone https://github.com/X-Mars/Quick-Installation-ZABBIX.git
+cd Quick-Installation-ZABBIX
+bash zabbix7.4.sh
+```
 
 ### zabbix 7.0 食用方法
 1. centos 8（强烈不推荐） / centos 9 / centos 10 / rocky linux 8 / rocky linux 9 / rocky linux 10 / ubuntu 22.04 / ubuntu 24.04 / debian 12 / almaLinux 8 / almaLinux 9 / almaLinux 10
@@ -62,6 +72,9 @@ bash centos-7.sh
 <img align="left" src = "https://profile-counter.glitch.me/Quick-Installation-ZABBIX/count.svg" alt="Loading">
     
 ## 更新日志
+
+### 2025-10-14更新
+1. 添加zabbix 7.4 部署脚本
 
 ### 2025-08-30更新
 1. 添加rocky linux 10 / centos 10 / almaLinux 10 支持
