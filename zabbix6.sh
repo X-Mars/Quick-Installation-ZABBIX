@@ -183,6 +183,12 @@ notification() {
 
 
 add_wechat_dingtalk_feishu_scripts() {
+  echo -e "\n\e[31m拉取Zabbix cmdb 和报表模块，具体查看：https://gitee.com/xtlyk/zabbix_modules\e[0m"
+  echo -e "\e[31m此操作不影响zabbix使用\e[0m"
+  echo -e "\e[31m你可以在“管理”-“常规”-“模块”中点击“扫描目录”后，在列表中查找并启用两个模块\e[0m"
+  git clone https://gitee.com/xtlyk/zabbix_modules.git /usr/share/zabbix/modules
+  ls -la /usr/share/zabbix/modules
+
   echo -e "\n\e[31m拉取企业微信、钉钉、飞书告警脚本,具体查看: https://github.com/X-Mars/Zabbix-Alert-WeChat\e[0m"
   echo -e "\e[31m此操作不影响zabbix使用\e[0m"
   echo -e "\e[31m运行命令: ls -la /usr/lib/zabbix/alertscripts 查看脚本\e[0m"

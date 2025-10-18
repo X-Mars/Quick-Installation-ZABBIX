@@ -73,6 +73,10 @@ bash centos-7.sh
     
 ## 更新日志
 
+### 2025-10-18更新
+1. 添加作者开发的zabbix cmdb 和 报表模块支持
+2. https://gitee.com/xtlyk/zabbix_modules
+
 ### 2025-10-14更新
 1. 添加zabbix 7.4 部署脚本
 
