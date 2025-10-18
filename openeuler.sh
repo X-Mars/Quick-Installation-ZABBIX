@@ -3,7 +3,7 @@
 # Author: 火星小刘 / 中国青岛
 # Install Zabbix 7.0 on Openeuler Linux 22.03 / 24.03
 
-zabbix_version=7.0.18
+zabbix_version=7.0.19
 zabbixdir=`pwd`
 
 echo -e "\e[32mAuthor: \e[0m\e[33m火星小刘 / 中国青岛\e[0m"
@@ -88,7 +88,6 @@ echo `pwd`
 ./configure --enable-server --enable-agent --with-mysql --with-net-snmp --with-libcurl --with-libxml2 --enable-java
 
 make -j$CPU_NUM
-
 make install
 
 echo "拷贝php文件"

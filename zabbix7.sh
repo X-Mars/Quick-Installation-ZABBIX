@@ -253,7 +253,6 @@ notification() {
   fi
 }
 
-
 add_wechat_dingtalk_feishu_scripts() {
   echo -e "\n\e[31m拉取Zabbix cmdb 和报表模块，具体查看：https://gitee.com/xtlyk/zabbix_modules\e[0m"
   echo -e "\e[31m此操作不影响zabbix使用\e[0m"

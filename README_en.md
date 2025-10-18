@@ -73,6 +73,10 @@ bash centos-7.sh
     
 ## Update Log
 
+### 2025-10-18 Update
+1. Added support for author-developed Zabbix CMDB and Report modules
+2. https://gitee.com/xtlyk/zabbix_modules
+
 ### 2025-10-14 Update
 1. Added Zabbix 7.4 deployment script
 
