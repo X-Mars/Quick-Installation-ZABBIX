@@ -234,4 +234,4 @@ bash centos-7.sh
 # Star History
 
 **请给该项目一个star，您的点赞就是对我最大的支持与鼓励**
-[![Star History Chart](https://api.star-history.com/svg?repos=X-Mars/Quick-Installation-ZABBIX&type=Date)](https://star-history.com/#X-Mars/Quick-Installation-ZABBIX&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=X-Mars/Quick-Installation-ZABBIX&type=Date)](https://star-history.dera.page/#X-Mars/Quick-Installation-ZABBIX&Date)
